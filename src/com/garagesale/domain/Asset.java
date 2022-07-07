@@ -1,12 +1,14 @@
 package com.garagesale.domain;
 
+import com.garagesale.enums.Category;
+
 public class Asset {
     private String assetName;
     private double price;
     private String[] issues;
     private int quantity;
     private final Category category;
-    private int ID;
+    private final int ID;
     private static int currentID = 1;
 
     static int IDGenerator() {

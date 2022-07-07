@@ -2,16 +2,19 @@ package com.garagesale.service;
 
 import com.garagesale.domain.Asset;
 import com.garagesale.domain.Garage;
-import com.garagesale.domain.ProductAlreadyInCartException;
+import com.garagesale.domain.Purchase;
+import com.garagesale.exceptions.ProductAlreadyInCartException;
 import com.garagesale.domain.User;
+import com.garagesale.domain.PurchaseReceipt;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Services {
     public Services() {
     }
 
-    public static void menuUI(User user, Garage garage){
+    public static void menuUI(Purchase purchase, Garage garage){
         Scanner scanner = new Scanner(System.in);
         boolean keepGoing = true;
 
@@ -21,20 +24,25 @@ public class Services {
             System.out.println(" ");
             switch (option) {
                 case 1:
-                    menuAssetsView(user, garage);
+                    menuAssetsView(purchase, garage);
                     break;
                 case 2:
-                    menuMyCart(user);
+                    menuMyCart(purchase);
                     break;
                 case 3:
+                    menuCheckout(purchase);
+                    break;
                 case 4:
                     keepGoing = false;
+                    break;
+                default:
+                    System.out.println("Please choose an existing option!");
             }
         }
 
     }
 
-    static void menuAssetsView(User user, Garage garage){
+    static void menuAssetsView(Purchase purchase, Garage garage){
         for(Asset temp: garage.getAssetList()){
             System.out.print(temp.getAssetName() + " -- " + temp.getPrice() + "USD -- Quantity: " +temp.getQuantity() + "; ");
             System.out.print("This asset have these issues: ");
@@ -49,25 +57,28 @@ public class Services {
         boolean keepGoing = true;
 
         while(keepGoing) {
-            System.out.println("Please choose an option: \n1. Buy\n2. Go back \n");
+            System.out.println("Please choose an option: \n1. Add an asset to your cart\n2. Go back \n");
             int option = scanner.nextInt();
             switch (option) {
                 case 1:
-                    menuBuyList(user, garage);
+                    menuBuyList(purchase, garage);
                     break;
                 case 2:
                     keepGoing = false;
+                    break;
+                default:
+                    System.out.println("Please choose an existing option!");
             }
         }
 
     }
 
-    static void menuBuyList(User user, Garage garage) {
+    static void menuBuyList(Purchase purchase, Garage garage) {
         Scanner scanner = new Scanner(System.in);
         boolean keepGoing = true;
 
         while(keepGoing) {
-            System.out.println("Which one do you wanna buy?: ");
+            System.out.println("Which one do you wanna add?: ");
             for(int i = 0; i < garage.getAssetList().size(); i++) {
                 System.out.print(i + 1 + ". " + (garage.getAssetList().get(i)).getAssetName() + " -- " +
                                                 (garage.getAssetList().get(i)).getPrice() + "USD --  quantity: " +
@@ -84,28 +95,31 @@ public class Services {
             try {
                 switch (option) {
                     case 1:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(0));
+                        addAssetToCart(purchase,garage.getAssetList().get(0));
                         keepGoing = false;
                         break;
                     case 2:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(1));
+                        addAssetToCart(purchase,garage.getAssetList().get(1));
                         keepGoing = false;
                         break;
                     case 3:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(2));
+                        addAssetToCart(purchase,garage.getAssetList().get(2));
                         keepGoing = false;
                         break;
                     case 4:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(3));
+                        addAssetToCart(purchase,garage.getAssetList().get(3));
                         keepGoing = false;
                         break;
                     case 5:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(4));
+                        addAssetToCart(purchase,garage.getAssetList().get(4));
                         keepGoing = false;
                         break;
                     case 6:
-                        User.addAssetToCart(user, (Asset)garage.getAssetList().get(5));
+                        addAssetToCart(purchase,garage.getAssetList().get(5));
                         keepGoing = false;
+                        break;
+                    default:
+                        System.out.println("Please choose an existing option!");
                 }
             } catch (ProductAlreadyInCartException var6) {
                 System.out.println("You already have one item of that category");
@@ -114,13 +128,81 @@ public class Services {
 
     }
 
-    static void menuMyCart(User user) {
-        if (user.getShoppingCart().isEmpty()) {
+    static void menuMyCart(Purchase purchase) {
+        if (purchase.getPurchaseCart().isEmpty()) {
             System.out.println("Cart empty ");
         } else {
-            for (Asset temp : user.getShoppingCart().values()) {
+            for (Asset temp : purchase.getPurchaseCart().values()) {
                 System.out.println(temp.getAssetName() + " -- " + temp.getPrice() + "USD");
+            }
+            System.out.println("Total balance: " + purchase.getPurchaseBalance()+ "\n") ;
+        }
+    }
+
+    public static void menuCheckout(Purchase purchase){
+        boolean keepGoing = true;
+        if (purchase.getPurchaseCart().isEmpty()) {
+            System.out.println("Cart empty. Nothing to pay.");
+        } else {
+            for (Asset temp : purchase.getPurchaseCart().values()) {
+                System.out.println(temp.getAssetName() + " -- " + temp.getPrice() + " USD");
+            }
+            System.out.println("Total: " + purchase.getPurchaseBalance() + " USD");
+            Scanner scanner = new Scanner(System.in);
+            while(keepGoing) {
+                System.out.println("1. Continue to pay\n2. Go back\n");
+                int option = scanner.nextInt();
+                switch (option) {
+                    case 1:
+                        if(purchase.getCustomer().getCreditCard().getBalance() >
+                                purchase.getPurchaseBalance())
+                        {
+                            purchaseCheckout(purchase);
+                        } else {
+                            System.out.println("Insufficient balance");
+                        }
+                        keepGoing = false;
+                        break;
+                    case 2:
+                        keepGoing = false;
+                        break;
+                    default:
+                        System.out.println("Please choose an existing option!\n");
+                }
+            }
+        }
+
+    }
+
+    public static void purchaseCheckout(Purchase purchase){
+        System.out.println("Please provide a name: ");
+        Scanner scanner = new Scanner(System.in);
+        String name = scanner.nextLine();
+        System.out.println("And an valid email adress: ");
+        String emailAdress = scanner.nextLine();
+        PurchaseReceipt purchaseReceipt = new PurchaseReceipt
+                (name, emailAdress, purchase.getID(), purchase.getPurchaseCart().values().stream().toList(),
+                        purchase.getPurchaseBalance(), "Credit card " + purchase.getCustomer().getCreditCard().getCardNumber());
+        System.out.println(purchaseReceipt.toString());
+    }
+    public static void addAssetToCart(Purchase purchase, Asset asset) throws ProductAlreadyInCartException {
+        if (asset.getQuantity() > 0) {
+            if (purchase.getPurchaseCart().containsKey(asset.getCategory())) {
+                throw new ProductAlreadyInCartException("You already have a " + asset.getCategory());
+            } else {
+                purchase.getPurchaseCart().put(asset.getCategory(), asset);
+                purchase.setPurchaseBalance(purchase.getPurchaseBalance()+asset.getPrice());
+                System.out.println(asset.getAssetName() + " succesfully added to your cart");
+                asset.setQuantity(asset.getQuantity() - 1);
             }
         }
     }
+
+    public static void removeAssetFromCart(Purchase purchase, Asset asset) {
+        purchase.getPurchaseCart().remove(asset.getCategory());
+        asset.setQuantity(asset.getQuantity() + 1);
+    }
+
+
+
 }

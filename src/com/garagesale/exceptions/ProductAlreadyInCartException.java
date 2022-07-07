@@ -1,4 +1,4 @@
-package com.garagesale.domain;
+package com.garagesale.exceptions;
 
 public class ProductAlreadyInCartException extends Exception {
     public ProductAlreadyInCartException(String errorMessage) {

@@ -1,18 +1,25 @@
 package com.garagesale.domain;
 
+import com.garagesale.enums.Category;
+import com.garagesale.exceptions.ProductAlreadyInCartException;
+
 import java.util.HashMap;
 
 public class User {
     private String username;
-    private HashMap<Category, Asset> shoppingCart;
+    private String email;
+    private CreditCard creditCard;
 
-    public User(String username) {
+
+
+    public User(String username, String email, CreditCard creditCard) {
         this.username = username;
-        this.shoppingCart = new HashMap();
+        this.email = email;
+        this.creditCard = creditCard;
     }
 
-    public User(HashMap<Category, Asset> shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public CreditCard getCreditCard() {
+        return creditCard;
     }
 
     public String getUsername() {
@@ -23,29 +30,15 @@ public class User {
         this.username = username;
     }
 
-    public HashMap<Category, Asset> getShoppingCart() {
-        return this.shoppingCart;
+    public String getEmail() {
+        return email;
     }
 
-    public void setShoppingCart(HashMap<Category, Asset> shoppingCart) {
-        this.shoppingCart = shoppingCart;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public static void addAssetToCart(User user, Asset asset) throws ProductAlreadyInCartException {
-        if (asset.getQuantity() > 0) {
-            if (user.shoppingCart.containsKey(asset.getCategory())) {
-                throw new ProductAlreadyInCartException("You already have a " + asset.getCategory());
-            }
-
-            user.getShoppingCart().put(asset.getCategory(), asset);
-            System.out.println(asset.getAssetName() + " succesfully added to your cart");
-            asset.setQuantity(asset.getQuantity() - 1);
-        }
-
-    }
-
-    public static void removeAssetFromCart(User user, Asset asset) {
-        user.shoppingCart.remove(asset.getCategory());
-        asset.setQuantity(asset.getQuantity() + 1);
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 }
