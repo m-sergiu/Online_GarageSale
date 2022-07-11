@@ -21,9 +21,9 @@ public class Main {
 
 
         CreditCard creditCard = new CreditCard("1234567812345678",50000.0, "Sergiu Muntean");
-        User sergiu = new User("Sergiu","Sergiu.muntean@endava.com",creditCard);
+        User sergiu = new User("Sergiu","Sergiu.muntean@endava.com");
         Garage garage = new Garage(new ArrayList(List.of(mouseDellMs116, laptopLenovoT570, monitorDellP2418D, keyboardDellKm7321, keyboardRazerBlackwidow, headphonesJabraEvolve20)));
-        Purchase purchase = new Purchase(sergiu,1);
+        Purchase purchase = new Purchase(sergiu,1, creditCard);
 
 
         Services.menuUI(purchase, garage);

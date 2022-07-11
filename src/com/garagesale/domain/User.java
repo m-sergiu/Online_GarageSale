@@ -8,19 +8,16 @@ import java.util.HashMap;
 public class User {
     private String username;
     private String email;
-    private CreditCard creditCard;
 
 
 
-    public User(String username, String email, CreditCard creditCard) {
+
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
-        this.creditCard = creditCard;
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
-    }
+
 
     public String getUsername() {
         return this.username;
@@ -38,7 +35,5 @@ public class User {
         this.email = email;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
-    }
+
 }

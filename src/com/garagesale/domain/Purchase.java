@@ -8,12 +8,14 @@ public class Purchase {
     private final int id;
     private User customer;
     private HashMap<Category, Asset> purchaseCart;
+    private CreditCard creditCard;
     private double purchaseBalance = 0;
 
 
-    public Purchase(User customer,int id) {
+    public Purchase(User customer,int id, CreditCard creditCard) {
         this.customer = customer;
         this.purchaseCart = new HashMap();
+        this.creditCard= creditCard;
         this.id = id;
     }
 
@@ -29,6 +31,9 @@ public class Purchase {
     public int getId() {
         return id;
     }
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
 
     public User getCustomer() {
         return customer;
@@ -40,6 +45,9 @@ public class Purchase {
 
     public void setCustomer(User customer) {
         this.customer = customer;
+    }
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 
 }

@@ -152,7 +152,7 @@ public class Services {
                 int option = scanner.nextInt();
                 switch (option) {
                     case 1:
-                        if(purchase.getCustomer().getCreditCard().getBalance() >
+                        if(purchase.getCreditCard().getBalance() >
                                 purchase.getPurchaseBalance())
                         {
                             purchaseCheckout(purchase);
@@ -180,7 +180,7 @@ public class Services {
         String emailAdress = scanner.nextLine();
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt
                 (name, emailAdress, purchase.getId(), purchase.getPurchaseCart().values().stream().toList(),
-                        purchase.getPurchaseBalance(), "Credit card " + purchase.getCustomer().getCreditCard().getCardNumber());
+                        purchase.getPurchaseBalance(), "Credit card " + purchase.getCreditCard().getCardNumber());
         System.out.println(purchaseReceipt.toString());
     }
     public static void addAssetToCart(Purchase purchase, Asset asset) throws ProductAlreadyInCartException{
