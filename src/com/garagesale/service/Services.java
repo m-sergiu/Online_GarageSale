@@ -4,10 +4,8 @@ import com.garagesale.domain.Asset;
 import com.garagesale.domain.Garage;
 import com.garagesale.domain.Purchase;
 import com.garagesale.exceptions.ProductAlreadyInCartException;
-import com.garagesale.domain.User;
 import com.garagesale.domain.PurchaseReceipt;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Services {
@@ -24,13 +22,13 @@ public class Services {
             System.out.println(" ");
             switch (option) {
                 case 1:
-                    menuAssetsView(purchase, garage);
+                    viewAssetsMenu(purchase, garage);
                     break;
                 case 2:
-                    menuMyCart(purchase);
+                    viewMyCart(purchase);
                     break;
                 case 3:
-                    menuCheckout(purchase);
+                    checkoutMenu(purchase);
                     break;
                 case 4:
                     keepGoing = false;
@@ -42,7 +40,7 @@ public class Services {
 
     }
 
-    static void menuAssetsView(Purchase purchase, Garage garage){
+    static void viewAssetsMenu(Purchase purchase, Garage garage){
         for(Asset temp: garage.getAssetList()){
             System.out.print(temp.getAssetName() + " -- " + temp.getPrice() + "USD -- Quantity: " +temp.getQuantity() + "; ");
             System.out.print("This asset have these issues: ");
@@ -61,7 +59,7 @@ public class Services {
             int option = scanner.nextInt();
             switch (option) {
                 case 1:
-                    menuBuyList(purchase, garage);
+                    buyListMenu(purchase, garage);
                     break;
                 case 2:
                     keepGoing = false;
@@ -73,7 +71,7 @@ public class Services {
 
     }
 
-    static void menuBuyList(Purchase purchase, Garage garage) {
+    static void buyListMenu(Purchase purchase, Garage garage) {
         Scanner scanner = new Scanner(System.in);
         boolean keepGoing = true;
 
@@ -121,14 +119,14 @@ public class Services {
                     default:
                         System.out.println("Please choose an existing option!");
                 }
-            } catch (ProductAlreadyInCartException var6) {
-                System.out.println("You already have one item of that category");
+            } catch (ProductAlreadyInCartException exception) {
+                System.out.println(exception.getMessage());
             }
         }
 
     }
 
-    static void menuMyCart(Purchase purchase) {
+    static void viewMyCart(Purchase purchase) {
         if (purchase.getPurchaseCart().isEmpty()) {
             System.out.println("Cart empty ");
         } else {
@@ -139,7 +137,7 @@ public class Services {
         }
     }
 
-    public static void menuCheckout(Purchase purchase){
+    public static void checkoutMenu(Purchase purchase){
         boolean keepGoing = true;
         if (purchase.getPurchaseCart().isEmpty()) {
             System.out.println("Cart empty. Nothing to pay.");
@@ -181,11 +179,11 @@ public class Services {
         System.out.println("And an valid email adress: ");
         String emailAdress = scanner.nextLine();
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt
-                (name, emailAdress, purchase.getID(), purchase.getPurchaseCart().values().stream().toList(),
+                (name, emailAdress, purchase.getId(), purchase.getPurchaseCart().values().stream().toList(),
                         purchase.getPurchaseBalance(), "Credit card " + purchase.getCustomer().getCreditCard().getCardNumber());
         System.out.println(purchaseReceipt.toString());
     }
-    public static void addAssetToCart(Purchase purchase, Asset asset) throws ProductAlreadyInCartException {
+    public static void addAssetToCart(Purchase purchase, Asset asset) throws ProductAlreadyInCartException{
         if (asset.getQuantity() > 0) {
             if (purchase.getPurchaseCart().containsKey(asset.getCategory())) {
                 throw new ProductAlreadyInCartException("You already have a " + asset.getCategory());

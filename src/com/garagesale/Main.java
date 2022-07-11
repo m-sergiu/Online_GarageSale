@@ -12,18 +12,18 @@ public class Main {
     }
 
     public static void main(String[] args){
-        Asset mouseDellMs116 = new Asset("Mouse Dell MS116", 5.99, new String[]{"-"}, 3, Category.MOUSE);
-        Asset laptopLenovoT570 = new Asset("Laptop Lenovo T570 ", 200.0, new String[]{"Low battery"}, 1, Category.LAPTOP);
-        Asset monitorDellP2418D = new Asset("Monitor Dell P2418D", 70.0, new String[]{"1 Dead pixel"}, 1, Category.MONITOR);
-        Asset keyboardRazerBlackwidow = new Asset("Keyboard RAZER blackwidow", 70.0, new String[]{"Discharged quickly","asd"}, 1, Category.KEYBOARD);
-        Asset headphonesJabraEvolve20 = new Asset("Headphones JABRA Evolve20", 70.0, new String[]{""}, 1, Category.HEADPHONES);
-        Asset keyboardDellKm7321 = new Asset("Keyboard DELL KM7321", 70.0, new String[]{"Discharged quickly"}, 1, Category.KEYBOARD);
+        Asset mouseDellMs116 = new Asset("Mouse Dell MS116", 5.99, new String[]{"-"}, 3, Category.MOUSE,1);
+        Asset laptopLenovoT570 = new Asset("Laptop Lenovo T570 ", 200.0, new String[]{"Low battery"}, 1, Category.LAPTOP,2);
+        Asset monitorDellP2418D = new Asset("Monitor Dell P2418D", 70.0, new String[]{"1 Dead pixel"}, 1, Category.MONITOR,3);
+        Asset keyboardRazerBlackwidow = new Asset("Keyboard RAZER blackwidow", 70.0, new String[]{"Discharged quickly","asd"}, 1, Category.KEYBOARD,4);
+        Asset headphonesJabraEvolve20 = new Asset("Headphones JABRA Evolve20", 70.0, new String[]{""}, 1, Category.HEADPHONES,5);
+        Asset keyboardDellKm7321 = new Asset("Keyboard DELL KM7321", 70.0, new String[]{"Discharged quickly"}, 1, Category.KEYBOARD,6);
 
 
         CreditCard creditCard = new CreditCard("1234567812345678",50000.0, "Sergiu Muntean");
         User sergiu = new User("Sergiu","Sergiu.muntean@endava.com",creditCard);
         Garage garage = new Garage(new ArrayList(List.of(mouseDellMs116, laptopLenovoT570, monitorDellP2418D, keyboardDellKm7321, keyboardRazerBlackwidow, headphonesJabraEvolve20)));
-        Purchase purchase = new Purchase(sergiu);
+        Purchase purchase = new Purchase(sergiu,1);
 
 
         Services.menuUI(purchase, garage);

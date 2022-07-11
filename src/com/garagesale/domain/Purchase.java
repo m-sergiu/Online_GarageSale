@@ -5,23 +5,18 @@ import com.garagesale.enums.Category;
 import java.util.HashMap;
 
 public class Purchase {
-    private final int ID;
-    private static int currentID = 1;
+    private final int id;
     private User customer;
     private HashMap<Category, Asset> purchaseCart;
     private double purchaseBalance = 0;
 
 
-    public Purchase(User customer) {
+    public Purchase(User customer,int id) {
         this.customer = customer;
         this.purchaseCart = new HashMap();
-        this.ID = IDGenerator();
+        this.id = id;
     }
 
-    static int IDGenerator() {
-        int ID = currentID++;
-        return ID;
-    }
 
     public double getPurchaseBalance() {
         return purchaseBalance;
@@ -31,8 +26,8 @@ public class Purchase {
         this.purchaseBalance = purchaseBalance;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
     public User getCustomer() {
