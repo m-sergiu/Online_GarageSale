@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public Main() {
-    }
+
 
     public static void main(String[] args){
         Asset mouseDellMs116 = new Asset("Mouse Dell MS116", 5.99, new String[]{"-"}, 3, Category.MOUSE,1);

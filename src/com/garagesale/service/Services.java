@@ -9,8 +9,7 @@ import com.garagesale.domain.PurchaseReceipt;
 import java.util.Scanner;
 
 public class Services {
-    public Services() {
-    }
+
 
     public static void menuUI(Purchase purchase, Garage garage){
         Scanner scanner = new Scanner(System.in);
