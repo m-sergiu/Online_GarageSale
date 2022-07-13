@@ -1,8 +1,10 @@
 package com.garagesale.domain;
 
 import com.garagesale.enums.Category;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+
 
 public class Purchase {
     private final int id;

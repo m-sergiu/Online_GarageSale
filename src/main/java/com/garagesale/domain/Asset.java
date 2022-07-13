@@ -10,6 +10,7 @@ public class Asset {
     private String[] issues;
     private int quantity;
 
+
     public Asset(String assetName, double price, String[] issues, int quantity, Category category, int id) {
         this.assetName = assetName;
         this.price = price;
