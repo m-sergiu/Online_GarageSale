@@ -17,13 +17,11 @@ public class AssetServiceImpl implements AssetService {
         this.assetRepository = assetRepository;
     }
 
-    public void setAssetRepository(AssetRepository assetRepository) {
-        this.assetRepository = assetRepository;
-    }
 
     public List<Asset> findAll(){
-       return assetRepository.findAll();
-   }
+        assetRepository = new HibernateAssetRepositoryImpl();
+        return assetRepository.findAll();
+    }
 
 
 }
