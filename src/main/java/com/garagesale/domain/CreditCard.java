@@ -1,7 +1,5 @@
 package com.garagesale.domain;
 
-
-
 public class CreditCard{
     private final String cardNumber;
     private double balance;
