@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Asset")
+@RequestMapping("/asset")
 public class AssetController {
 
     private AssetService assetService;
