@@ -120,6 +120,7 @@ public class Services {
                 }
             } catch (ProductAlreadyInCartException exception) {
                 System.out.println(exception.getMessage());
+                keepGoing = false;
             }
         }
 

@@ -2,6 +2,7 @@ package com.garagesale.domain;
 
 import java.util.List;
 
+
 public class Garage {
     private List<Asset> assetList;
 

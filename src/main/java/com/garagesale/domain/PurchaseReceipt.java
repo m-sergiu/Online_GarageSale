@@ -1,11 +1,11 @@
 package com.garagesale.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
+
 public class PurchaseReceipt {
-   private String customerName;
-   private String customerEmail;
+    private String customerName;
+    private String customerEmail;
     private int ID;
     private List<Asset> assetList;
     private double totalAmount;
@@ -70,12 +70,12 @@ public class PurchaseReceipt {
 
     @Override
     public String toString() {
-        String result =  customerName + ", thank you for buying from us. " +
-                "Here you have the receipt with ID " +  ID +
+        String result = customerName + ", thank you for buying from us. " +
+                "Here you have the receipt with ID " + ID +
                 ", of a total amount of: " + totalAmount +
-                " USD. The payment details: '" + paymentDetails + '\''+
+                " USD. The payment details: '" + paymentDetails + '\'' +
                 ", and the list of items:";
-        for(Asset temp: assetList){
+        for (Asset temp : assetList) {
             result += " " + temp.getAssetName() + ";";
         }
         return result;

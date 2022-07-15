@@ -1,9 +1,9 @@
 package com.garagesale.domain;
 
-public class CreditCard{
+public class CreditCard {
     private final String cardNumber;
-    private double balance;
     private final String cardHolderName;
+    private double balance;
 
     public CreditCard(String cardNumber, double balance, String cardHolderName) {
         this.cardNumber = cardNumber;
@@ -19,11 +19,11 @@ public class CreditCard{
         return balance;
     }
 
-    public String getCardHolderName() {
-        return cardHolderName;
-    }
-
     public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public String getCardHolderName() {
+        return cardHolderName;
     }
 }
