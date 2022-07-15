@@ -1,7 +1,5 @@
 package com.garagesale.domain;
 
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 

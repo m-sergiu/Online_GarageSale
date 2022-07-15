@@ -5,13 +5,13 @@ import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository("assetRepository")
-public class HibernateAssetRepositoryImpl implements AssetRepository {
+public class AssetRepositoryImpl implements AssetRepository {
+
     @Override
-    public List<Asset> findAll(){
+    public List<Asset> findAll() {
         List<Asset> assets = new ArrayList<>();
 
         //Create assets

@@ -21,9 +21,6 @@
 ////        Purchase purchase = new Purchase(sergiu,1, creditCard);
 ////                Services.menuUI(purchase, garage);
 //
-//        ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        AssetService service = appContext.getBean("assetService",AssetService.class);
-//        System.out.println(service.findAll().get(0).getAssetName());
 //    }
 //
 //

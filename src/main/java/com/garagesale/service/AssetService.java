@@ -5,6 +5,6 @@ import com.garagesale.domain.Asset;
 import java.util.List;
 
 public interface AssetService {
-    public List<Asset> findAll();
+    List<Asset> findAll();
 
 }
