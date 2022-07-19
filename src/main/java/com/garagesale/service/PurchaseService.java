@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface PurchaseService {
 
-     String createPurchase(List<Asset> assets);
+     String createPurchase();
+     List<Asset> getAll();
+     String addAsset(Asset asset);
+     String finalizePurchase();
 }

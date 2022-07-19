@@ -10,6 +10,18 @@ public class Asset {
     private String[] issues;
     private int quantity;
 
+    public Asset(Category category, int id, String assetName, double price, String[] issues, int quantity) {
+        this.category = category;
+        this.id = id;
+        this.assetName = assetName;
+        this.price = price;
+        this.issues = issues;
+        this.quantity = quantity;
+    }
+
+    public Asset() {
+    }
+
     public Category getCategory() {
         return this.category;
     }
