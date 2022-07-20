@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PurchaseRepository {
     String createPurchase();
-    String addAsset(Asset asset);
+    String addAssetToCart();
     List<Asset> getAll();
-    String finalizePurchase();
+    List<Asset> finalizePurchase();
 }

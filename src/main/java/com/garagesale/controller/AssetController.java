@@ -24,7 +24,7 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/getAll")
-    public List<Asset> findAll() {
+    public List<Asset> getAll() {
         AssetRepository assetRepo = new AssetRepositoryImpl();
         assetService = new AssetServiceImpl(assetRepo);
         return assetService.findAll();

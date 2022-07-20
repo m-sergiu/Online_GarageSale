@@ -8,6 +8,6 @@ public interface PurchaseService {
 
      String createPurchase();
      List<Asset> getAll();
-     String addAsset(Asset asset);
+     String addAssetToCart();
      String finalizePurchase();
 }
