@@ -1,30 +1,29 @@
 package com.garagesale.repository;
 
-import com.garagesale.controller.AssetController;
 import com.garagesale.domain.Asset;
 import com.garagesale.enums.Category;
-import com.garagesale.service.AssetService;
-import com.garagesale.service.AssetServiceImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository("purchaseRepository")
-public class PurchaseRepositoryImpl implements PurchaseRepository{
+public class PurchaseRepositoryImpl implements PurchaseRepository {
     public List<Asset> purchaseCart;
 
+    @Override
+    public List<Asset> getAll() {
+        return purchaseCart;
+    }
 
     @Override
     public String createPurchase() {
         purchaseCart = new ArrayList<>();
-        return "shopping Cart created";
+        return "Purchase shopping Cart created";
     }
 
     @Override
-    public String addAsset(Asset asset){
-        //purchaseCart.add(asset);
-        //add an asset
+    public String addAssetToCart() {
         Asset keyboard = new Asset();
         keyboard.setAssetName("Keyboard DellKm7321");
         keyboard.setId(10);
@@ -33,21 +32,20 @@ public class PurchaseRepositoryImpl implements PurchaseRepository{
         keyboard.setPrice(45.0d);
         keyboard.setIssues(new String[]{"Alt key is not working"});
         purchaseCart.add(keyboard);
-        return asset + "added to the cart";
+
+        Asset asset = new Asset();
+        asset.setAssetName("Asset");
+        asset.setId(11);
+        asset.setCategory(Category.HEADPHONES);
+        asset.setQuantity(1);
+        asset.setPrice(10.0);
+        asset.setIssues(new String[]{" - "});
+        purchaseCart.add(asset);
+        return keyboard.getAssetName() + ", " + asset.getAssetName() + " added to the cart ";
     }
 
     @Override
-    public List<Asset> getAll() {
+    public List<Asset> finalizePurchase() {
         return purchaseCart;
-    }
-
-    public String finalizePurchase(){
-       StringBuilder result = new StringBuilder();
-        for(Asset asset: purchaseCart){
-            result.append(asset.getAssetName())
-                    .append(" - ")
-                    .append(asset.getPrice() + "$; ");
-        }
-        return result.toString();
     }
 }

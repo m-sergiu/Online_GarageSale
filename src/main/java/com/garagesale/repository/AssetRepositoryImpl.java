@@ -18,7 +18,7 @@ public class AssetRepositoryImpl implements AssetRepository {
         mouseDellMs116.setAssetName("Mouse Dell MS116");
         mouseDellMs116.setId(1);
         mouseDellMs116.setCategory(Category.MOUSE);
-        mouseDellMs116.setQuantity(1);
+        mouseDellMs116.setQuantity(0);
         mouseDellMs116.setPrice(5.99d);
         mouseDellMs116.setIssues(new String[]{"Wheel not working"});
 
@@ -71,9 +71,8 @@ public class AssetRepositoryImpl implements AssetRepository {
     }
 
     @Override
-    public List<Asset> findAll() {
+    public List<Asset> getAll() {
         return assets;
-
     }
 
 

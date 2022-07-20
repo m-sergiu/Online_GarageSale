@@ -36,13 +36,13 @@ public class PurchaseController {
         return purchaseService.getAll();
     }
 
-    @RequestMapping("/addAsset")
-    public List<Asset> addAsset(Asset asset){
-        purchaseService.addAsset(asset);
-        return purchaseService.getAll();
+    @RequestMapping("/addAssetToCart")
+    public String addAssetToPurchaseCart() {
+        return purchaseService.addAssetToCart();
     }
+
     @RequestMapping("/finalizePurchase")
-    public String finalizePurchase(){
+    public String finalizePurchase() {
         return purchaseService.finalizePurchase();
     }
 }

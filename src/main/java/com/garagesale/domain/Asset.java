@@ -3,9 +3,9 @@ package com.garagesale.domain;
 import com.garagesale.enums.Category;
 
 public class Asset {
-    private Category category;
     private int id;
     private String assetName;
+    private Category category;
     private double price;
     private String[] issues;
     private int quantity;
