@@ -1,19 +1,26 @@
 package com.garagesale.repository;
 
 import com.garagesale.domain.Asset;
+import com.garagesale.domain.CreditCard;
+import com.garagesale.domain.User;
 import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-@Repository("purchaseRepository")
-public class PurchaseRepositoryImpl implements PurchaseRepository {
+@Repository
+public class OrderRepositoryImpl implements OrderRepository {
     public List<Asset> purchaseCart;
 
+    @Override
+    public List<Asset> getAll() {
+        return purchaseCart;
+    }
 
     @Override
-    public String createPurchase() {
+    public String createOrder() {
         purchaseCart = new ArrayList<>();
         return "Purchase shopping Cart created";
     }
@@ -39,14 +46,14 @@ public class PurchaseRepositoryImpl implements PurchaseRepository {
         purchaseCart.add(asset);
         return keyboard.getAssetName() + ", " + asset.getAssetName() + " added to the cart ";
     }
-
     @Override
-    public List<Asset> getAll() {
-        return purchaseCart;
+    public User getUser(){
+        User user = new User("Sergiu","Sergiu.muntean@endava.com");
+        return user;
     }
-
     @Override
-    public List<Asset> finalizePurchase() {
-        return purchaseCart;
+    public CreditCard getCreditCard(){
+        CreditCard creditCard = new CreditCard("1234567890123456",10000,"Sergiu Muntean", "123",new Date(10/10/2030));
+        return creditCard;
     }
 }

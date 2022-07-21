@@ -5,7 +5,7 @@ import com.garagesale.enums.Category;
 import java.util.HashMap;
 
 
-public class Purchase {
+public class Order {
     private int id;
     private User customer;
     private HashMap<Category, Asset> purchaseCart;
