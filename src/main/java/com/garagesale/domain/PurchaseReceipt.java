@@ -6,10 +6,22 @@ import java.util.List;
 public class PurchaseReceipt {
     private String customerName;
     private String customerEmail;
+    private CreditCard creditCard;
     private int ID;
     private List<Asset> assetList;
     private double totalAmount;
     private String paymentDetails;
+
+    public PurchaseReceipt() {
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
 
     public PurchaseReceipt(String customerName, String customerEmail, int ID, List<Asset> assetList, double totalAmount, String paymentDetails) {
         this.customerName = customerName;

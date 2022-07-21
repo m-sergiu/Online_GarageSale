@@ -1,6 +1,7 @@
 package com.garagesale.controller;
 
 import com.garagesale.domain.Asset;
+import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.exceptions.CreditCardNotAvailable;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class OrderController {
     }
 
     @RequestMapping("/finalizePurchase")
-    public String finalizePurchase() throws CreditCardNotAvailable {
+    public PurchaseReceipt finalizePurchase() throws CreditCardNotAvailable {
         return orderService.finalizePurchase();
     }
 }

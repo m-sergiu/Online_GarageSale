@@ -1,16 +1,16 @@
 package com.garagesale.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class CreditCard {
     private final String cardNumber;
     private final String cardHolderName;
     private final String CIV;
-    private Date expiry;
+    private LocalDate expiry;
 
     private double balance;
 
-    public CreditCard(String cardNumber, double balance, String cardHolderName, String CIV, Date expiry) {
+    public CreditCard(String cardNumber, double balance, String cardHolderName, String CIV, LocalDate expiry) {
         this.cardNumber = cardNumber;
         this.balance = balance;
         this.cardHolderName = cardHolderName;
@@ -22,11 +22,11 @@ public class CreditCard {
         return CIV;
     }
 
-    public Date getExpiry() {
+    public LocalDate getExpiry() {
         return expiry;
     }
 
-    public void setExpiry(Date expiry) {
+    public void setExpiry(LocalDate expiry) {
         this.expiry = expiry;
     }
 

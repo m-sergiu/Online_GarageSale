@@ -6,8 +6,8 @@ import com.garagesale.domain.User;
 import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -53,7 +53,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
     @Override
     public CreditCard getCreditCard(){
-        CreditCard creditCard = new CreditCard("1234567890123456",10000,"Sergiu Muntean", "123",new Date(10/10/2030));
+        CreditCard creditCard = new CreditCard("1234567890123456",10000,"Sergiu Muntean", "123", LocalDate.of(2030,1,8));
         return creditCard;
     }
 }
