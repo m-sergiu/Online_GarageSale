@@ -2,27 +2,37 @@ package com.garagesale.repository;
 
 import com.garagesale.domain.Asset;
 import com.garagesale.domain.CreditCard;
+import com.garagesale.domain.Order;
 import com.garagesale.domain.User;
 import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
-    public List<Asset> purchaseCart;
+    Order order;
 
     @Override
-    public List<Asset> getAll() {
-        return purchaseCart;
+    public Order getOrder() {
+        return order;
     }
 
     @Override
-    public String createOrder() {
-        purchaseCart = new ArrayList<>();
-        return "Purchase shopping Cart created";
+    public Map<Category,Asset> getOrderCart() {
+        return order.getPurchaseCart();
+    }
+
+    @Override
+    public Order createOrder() {
+        order = new Order();
+        order.setId(1);
+        order.setPurchaseCart(new HashMap<>());
+        return order;
     }
 
     @Override
@@ -34,7 +44,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         keyboard.setQuantity(1);
         keyboard.setPrice(45.0d);
         keyboard.setIssues(new String[]{"Alt key is not working"});
-        purchaseCart.add(keyboard);
+        order.addAssetToOrderCart(keyboard);
 
         Asset asset = new Asset();
         asset.setAssetName("Asset");
@@ -43,7 +53,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         asset.setQuantity(1);
         asset.setPrice(10.0);
         asset.setIssues(new String[]{" - "});
-        purchaseCart.add(asset);
+        order.addAssetToOrderCart(asset);
         return keyboard.getAssetName() + ", " + asset.getAssetName() + " added to the cart ";
     }
     @Override

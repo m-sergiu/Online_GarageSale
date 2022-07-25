@@ -1,14 +1,18 @@
 package com.garagesale.controller;
 
 import com.garagesale.domain.Asset;
+import com.garagesale.domain.Order;
 import com.garagesale.domain.PurchaseReceipt;
+import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CreditCardNotAvailable;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -19,14 +23,18 @@ public class OrderController {
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
+    @RequestMapping
+    public Order getOrder(){
+        return orderService.getOrder();
+    }
 
-    @RequestMapping("/getAll")
-    public List<Asset> getAllAssetsInCart() {
-        return orderService.getAll();
+    @RequestMapping("/getOrderCart")
+    public Map<Category,Asset> getOrderCart() {
+        return orderService.getOrderCart();
     }
 
     @RequestMapping("/createOrder")
-    public String createOrder() {
+    public Order createOrder() {
         return orderService.createOrder();
     }
 
@@ -35,8 +43,8 @@ public class OrderController {
         return orderService.addAssetToCart();
     }
 
-    @RequestMapping("/finalizePurchase")
-    public PurchaseReceipt finalizePurchase() throws CreditCardNotAvailable {
-        return orderService.finalizePurchase();
+    @RequestMapping("/finalizeOrder")
+    public PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable {
+        return orderService.finalizeOrder();
     }
 }

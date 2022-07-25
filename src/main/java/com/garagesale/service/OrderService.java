@@ -1,19 +1,19 @@
 package com.garagesale.service;
 
-import com.garagesale.domain.Asset;
-import com.garagesale.domain.CreditCard;
-import com.garagesale.domain.PurchaseReceipt;
-import com.garagesale.domain.User;
+import com.garagesale.domain.*;
+import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CreditCardNotAvailable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
+     Order getOrder();
 
-     List<Asset> getAll();
-     String createOrder();
+     Map<Category,Asset> getOrderCart();
+     Order createOrder();
      String addAssetToCart();
-     PurchaseReceipt finalizePurchase() throws CreditCardNotAvailable;
+     PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable;
      User getUser();
      CreditCard getCreditCard();
 }

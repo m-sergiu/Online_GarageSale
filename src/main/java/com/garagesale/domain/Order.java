@@ -52,4 +52,7 @@ public class Order {
         this.purchaseCart = purchaseCart;
     }
 
+    public void addAssetToOrderCart(Asset asset){
+        purchaseCart.put(asset.getCategory(),asset);
+    }
 }

@@ -1,32 +1,36 @@
 package com.garagesale.service;
 
-import com.garagesale.domain.Asset;
-import com.garagesale.domain.CreditCard;
-import com.garagesale.domain.PurchaseReceipt;
-import com.garagesale.domain.User;
+import com.garagesale.domain.*;
+import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CreditCardNotAvailable;
 import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
+
     @Override
-    public List<Asset> getAll() {
-        return orderRepository.getAll();
+    public Order getOrder() {
+        return orderRepository.getOrder();
     }
 
     @Override
-    public String createOrder() {
+    public Map<Category, Asset> getOrderCart() {
+        return orderRepository.getOrderCart();
+    }
+
+    @Override
+    public Order createOrder() {
         return orderRepository.createOrder();
     }
 
@@ -36,33 +40,36 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseReceipt finalizePurchase() throws CreditCardNotAvailable {
+    public PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable {
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
         purchaseReceipt.setCustomerName(getUser().getUsername());
         purchaseReceipt.setCustomerEmail(getUser().getEmail());
-        purchaseReceipt.setAssetList(orderRepository.getAll());
+        //Take from purchaseCart Map<Category,Asset> only the Asset list
+        purchaseReceipt.setAssetList(orderRepository.getOrder().getPurchaseCart().values().stream().toList());
         purchaseReceipt.setCreditCard(getCreditCard());
+
         int totalBalance = 0;
-        for (Asset asset : orderRepository.getAll()) {
+        for (Asset asset : purchaseReceipt.getAssetList()) {
             //Add to total price
             totalBalance += asset.getPrice();
         }
         purchaseReceipt.setTotalAmount(totalBalance);
 
-        if (!cardValidate(purchaseReceipt.getCreditCard())){
+        if (!cardValidate(purchaseReceipt.getCreditCard())) {
             throw new CreditCardNotAvailable("Credit card details are not good or expired");
-        } else if(purchaseReceipt.getTotalAmount() < totalBalance)
+        } else if (purchaseReceipt.getTotalAmount() < totalBalance)
             throw new CreditCardNotAvailable("Insufficient balance");
-            else {
-                purchaseReceipt.setPaymentDetails("payed by card: " + purchaseReceipt.getCreditCard().getCardNumber());
-                return purchaseReceipt;
+        else {
+            purchaseReceipt.setPaymentDetails("payed by card: " + purchaseReceipt.getCreditCard().getCardNumber());
+            return purchaseReceipt;
         }
     }
 
-    public boolean cardValidate(CreditCard creditCard){
-        return  creditCard.getCardNumber().length() == 16 && creditCard.getCIV().length() == 3 &&
+    public boolean cardValidate(CreditCard creditCard) {
+        return creditCard.getCardNumber().length() == 16 && creditCard.getCIV().length() == 3 &&
                 creditCard.getExpiry().isAfter(LocalDate.now());
     }
+
     @Override
     public User getUser() {
         return orderRepository.getUser();
