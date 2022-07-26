@@ -22,7 +22,7 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    @RequestMapping(value = "/getAll")
+    @RequestMapping
     public List<Asset> findAll() {
         return assetService.findAll();
     }
@@ -31,7 +31,7 @@ public class AssetController {
     public List<Asset> findAllAvailable() {
         return assetService.findAllAvailable();
     }
-    @PostMapping("/createAsset")
+    @PostMapping
     public Asset createAsset(@RequestBody Asset asset){
         return assetService.createAsset(asset);
     }
