@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Repository("orderRepository")
 public class OrderRepositoryImpl implements OrderRepository {
     Order order;
 
