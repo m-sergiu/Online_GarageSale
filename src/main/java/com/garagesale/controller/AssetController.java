@@ -4,6 +4,8 @@ import com.garagesale.domain.Asset;
 import com.garagesale.service.AssetService;
 import com.garagesale.service.AssetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +30,10 @@ public class AssetController {
     @RequestMapping("/getAllAvailable")
     public List<Asset> findAllAvailable() {
         return assetService.findAllAvailable();
+    }
+    @PostMapping("/createAsset")
+    public Asset createAsset(@RequestBody Asset asset){
+        return assetService.createAsset(asset);
     }
 
 

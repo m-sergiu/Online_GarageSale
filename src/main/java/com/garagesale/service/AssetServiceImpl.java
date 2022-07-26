@@ -36,5 +36,10 @@ public class AssetServiceImpl implements AssetService {
         return list;
     }
 
+    @Override
+    public Asset createAsset(Asset asset){
+        return assetRepository.createAsset(asset);
+    }
+
 
 }

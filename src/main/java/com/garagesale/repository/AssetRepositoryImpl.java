@@ -75,5 +75,16 @@ public class AssetRepositoryImpl implements AssetRepository {
         return assets;
     }
 
-
+    @Override
+    public Asset createAsset(Asset asset) {
+        Asset newAsset = new Asset();
+        newAsset.setId(asset.getId());
+        newAsset.setAssetName(asset.getAssetName());
+        newAsset.setIssues(asset.getIssues());
+        newAsset.setPrice(asset.getPrice());
+        newAsset.setQuantity(asset.getQuantity());
+        newAsset.setCategory(asset.getCategory());
+        assets.add(asset);
+        return newAsset;
+    }
 }

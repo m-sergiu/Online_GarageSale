@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AssetRepository {
     List<Asset> findAll();
+    Asset createAsset(Asset asset);
 }
