@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/asset")
 public class AssetController {
 
     private AssetService assetService;
@@ -23,16 +23,11 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    @RequestMapping("/getAll")
+    @RequestMapping(value = "/getAll")
     public List<Asset> getAll() {
         AssetRepository assetRepo = new AssetRepositoryImpl();
         assetService = new AssetServiceImpl(assetRepo);
-        return assetService.getAll();
-    }
-
-    @RequestMapping("/getAllAvailable")
-    public List<Asset> getAllAvailable(){
-        return assetService.getAllAvailable();
+        return assetService.findAll();
     }
 
 
