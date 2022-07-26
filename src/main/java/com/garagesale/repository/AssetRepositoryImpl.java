@@ -9,11 +9,10 @@ import java.util.List;
 
 @Repository("assetRepository")
 public class AssetRepositoryImpl implements AssetRepository {
+    List<Asset> assets;
 
-    @Override
-    public List<Asset> findAll() {
-        List<Asset> assets = new ArrayList<>();
-
+    public AssetRepositoryImpl() {
+        assets = new ArrayList<>();
         //Create assets
         Asset mouseDellMs116 = new Asset();
         mouseDellMs116.setAssetName("Mouse Dell MS116");
@@ -69,7 +68,12 @@ public class AssetRepositoryImpl implements AssetRepository {
         assets.add(keyboardRazerBlackwidow);
         assets.add(headphonesJabraEvolve20);
         assets.add(keyboardDellKm7321);
+    }
+
+    @Override
+    public List<Asset> findAll() {
         return assets;
+
     }
 
 

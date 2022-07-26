@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,11 +24,14 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/getAll")
-    public List<Asset> findAll() {
+    public List<Asset> getAll() {
         AssetRepository assetRepo = new AssetRepositoryImpl();
         assetService = new AssetServiceImpl(assetRepo);
         return assetService.findAll();
     }
+
+
+
 
 
 }
