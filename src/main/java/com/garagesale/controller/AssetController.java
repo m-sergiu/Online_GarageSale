@@ -1,22 +1,19 @@
 package com.garagesale.controller;
 
 import com.garagesale.domain.Asset;
-import com.garagesale.repository.AssetRepository;
-import com.garagesale.repository.AssetRepositoryImpl;
 import com.garagesale.service.AssetService;
 import com.garagesale.service.AssetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/asset")
+@RequestMapping("/products")
 public class AssetController {
 
-    private AssetService assetService;
+    private final AssetService assetService;
 
     @Autowired
     public AssetController(AssetServiceImpl assetService) {
@@ -24,14 +21,14 @@ public class AssetController {
     }
 
     @RequestMapping(value = "/getAll")
-    public List<Asset> getAll() {
-        AssetRepository assetRepo = new AssetRepositoryImpl();
-        assetService = new AssetServiceImpl(assetRepo);
+    public List<Asset> findAll() {
         return assetService.findAll();
     }
 
-
-
+    @RequestMapping("/getAllAvailable")
+    public List<Asset> findAllAvailable() {
+        return assetService.findAllAvailable();
+    }
 
 
 }

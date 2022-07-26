@@ -71,7 +71,7 @@ public class AssetRepositoryImpl implements AssetRepository {
     }
 
     @Override
-    public List<Asset> getAll() {
+    public List<Asset> findAll() {
         return assets;
     }
 

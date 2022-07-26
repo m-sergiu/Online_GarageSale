@@ -21,15 +21,14 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public List<Asset> getAll() {
-        assetRepository = new AssetRepositoryImpl();
-        return assetRepository.getAll();
+    public List<Asset> findAll() {
+        return assetRepository.findAll();
     }
 
     @Override
-    public List<Asset> getAllAvailable(){
-        List<Asset> list = new ArrayList<>(assetRepository.getAll());
-        for(Asset asset: assetRepository.getAll()){
+    public List<Asset> findAllAvailable(){
+        List<Asset> list = new ArrayList<>(assetRepository.findAll());
+        for(Asset asset: assetRepository.findAll()){
             if (asset.getQuantity() < 1){
                 list.remove(asset);
             }
