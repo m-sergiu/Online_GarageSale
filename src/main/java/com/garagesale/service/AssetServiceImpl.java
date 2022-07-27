@@ -1,8 +1,9 @@
 package com.garagesale.service;
 
+import com.garagesale.DTO.AssetDTO;
+import com.garagesale.Factory.AssetDTOFactory;
 import com.garagesale.domain.Asset;
 import com.garagesale.repository.AssetRepository;
-import com.garagesale.repository.AssetRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,9 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public Asset createAsset(Asset asset){
+    public Asset createAsset(AssetDTO assetDTO){
+        assetDTO.setId(AssetDTO.IDGenerator());
+        Asset asset = AssetDTOFactory.dtoToAsset(assetDTO);
         return assetRepository.createAsset(asset);
     }
 
