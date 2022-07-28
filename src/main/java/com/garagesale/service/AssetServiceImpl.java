@@ -40,8 +40,13 @@ public class AssetServiceImpl implements AssetService {
     @Override
     public Asset createAsset(AssetDTO assetDTO){
         Asset asset = AssetDTOMapping.dtoToAsset(assetDTO);
+        asset.setId(returnLastId());
         return assetRepository.createAsset(asset);
     }
 
+    public int returnLastId(){
+        int result = assetRepository.findAll().size();
+        return result + 1;
+    }
 
 }

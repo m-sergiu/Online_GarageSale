@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository("assetRepository")
 public class AssetRepositoryImpl implements AssetRepository {
-    List<Asset> assets;
+    public List<Asset> assets;
 
     public AssetRepositoryImpl() {
         assets = new ArrayList<>();
@@ -25,4 +25,5 @@ public class AssetRepositoryImpl implements AssetRepository {
         assets.add(asset);
         return asset;
     }
+
 }
