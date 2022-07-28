@@ -1,10 +1,10 @@
-package com.garagesale.Mapping;
+package com.garagesale.mapping;
 
-import com.garagesale.DTO.AssetDTO;
+import com.garagesale.dto.AssetDTO;
 import com.garagesale.domain.Asset;
 
 public class AssetDTOMapping {
-    private AssetDTOMapping(){};
+    private AssetDTOMapping(){}
 
     public static Asset dtoToAsset(AssetDTO assetDTO){
         Asset asset = new Asset();

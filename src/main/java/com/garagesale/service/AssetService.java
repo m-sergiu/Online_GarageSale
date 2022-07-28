@@ -1,6 +1,6 @@
 package com.garagesale.service;
 
-import com.garagesale.DTO.AssetDTO;
+import com.garagesale.dto.AssetDTO;
 import com.garagesale.domain.Asset;
 
 import java.util.List;

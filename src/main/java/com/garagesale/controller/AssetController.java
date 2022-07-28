@@ -1,6 +1,6 @@
 package com.garagesale.controller;
 
-import com.garagesale.DTO.AssetDTO;
+import com.garagesale.dto.AssetDTO;
 import com.garagesale.domain.Asset;
 import com.garagesale.service.AssetService;
 import com.garagesale.service.AssetServiceImpl;

@@ -1,7 +1,7 @@
 package com.garagesale.service;
 
-import com.garagesale.DTO.AssetDTO;
-import com.garagesale.Mapping.AssetDTOMapping;
+import com.garagesale.dto.AssetDTO;
+import com.garagesale.mapping.AssetDTOMapping;
 import com.garagesale.domain.Asset;
 import com.garagesale.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,7 @@ public class AssetServiceImpl implements AssetService {
     }
 
     public int returnLastId(){
-        int result = assetRepository.findAll().size();
-        return result + 1;
+        return assetRepository.findAll().size() + 1;
     }
 
 }
