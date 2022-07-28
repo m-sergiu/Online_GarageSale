@@ -3,6 +3,7 @@ package com.garagesale.domain;
 import com.garagesale.enums.Category;
 
 public class Asset {
+    private static int ID = 1;
     private int id;
     private String assetName;
     private Category category;
@@ -10,7 +11,8 @@ public class Asset {
     private String[] issues;
     private int quantity;
 
-    public Asset(Category category, int id, String assetName, double price, String[] issues, int quantity) {
+    public Asset(Category category, String assetName, double price, String[] issues, int quantity) {
+        this.id = IDGenerator();
         this.category = category;
         this.id = id;
         this.assetName = assetName;
@@ -20,6 +22,12 @@ public class Asset {
     }
 
     public Asset() {
+        this.id = IDGenerator();
+    }
+
+    public static int IDGenerator() {
+        int id = ID++;
+        return id;
     }
 
     public Category getCategory() {

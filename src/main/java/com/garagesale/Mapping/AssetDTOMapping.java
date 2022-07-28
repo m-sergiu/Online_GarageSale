@@ -1,10 +1,10 @@
-package com.garagesale.Factory;
+package com.garagesale.Mapping;
 
 import com.garagesale.DTO.AssetDTO;
 import com.garagesale.domain.Asset;
 
-public class AssetDTOFactory {
-    private AssetDTOFactory(){};
+public class AssetDTOMapping {
+    private AssetDTOMapping(){};
 
     public static Asset dtoToAsset(AssetDTO assetDTO){
         Asset asset = new Asset();
@@ -12,7 +12,6 @@ public class AssetDTOFactory {
         asset.setQuantity(assetDTO.getQuantity());
         asset.setPrice(assetDTO.getPrice());
         asset.setIssues(assetDTO.getIssues());
-        asset.setId(assetDTO.getId());
         return asset;
     }
 
@@ -22,7 +21,6 @@ public class AssetDTOFactory {
         assetDTO.setCategory(asset.getCategory());
         assetDTO.setIssues(asset.getIssues());
         assetDTO.setQuantity(asset.getQuantity());
-        assetDTO.setId(asset.getId());
         return assetDTO;
 
     }
