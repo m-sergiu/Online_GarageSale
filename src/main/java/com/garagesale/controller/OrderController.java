@@ -7,38 +7,38 @@ import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CreditCardNotAvailable;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-    @RequestMapping
-    public Order getOrder(){
+
+    @GetMapping
+    public Order getOrder() {
         return orderService.getOrder();
     }
 
-    @RequestMapping("/getOrderCart")
-    public Map<Category,Asset> getOrderCart() {
+    @GetMapping("/getOrderCart")
+    public Map<Category, Asset> getOrderCart() {
         return orderService.getOrderCart();
     }
 
-    @RequestMapping("/createOrder")
+    @GetMapping("/createOrder")
     public Order createOrder() {
         return orderService.createOrder();
     }
 
-    @RequestMapping("/addAssetToCart")
+    @GetMapping("/addAssetToCart")
     public String addAssetToPurchaseCart() {
         return orderService.addAssetToCart();
     }

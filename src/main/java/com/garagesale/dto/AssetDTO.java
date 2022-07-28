@@ -1,54 +1,36 @@
-package com.garagesale.domain;
+package com.garagesale.dto;
 
 import com.garagesale.enums.Category;
 
-public class Asset {
-    private int id;
-    private String assetName;
+public class AssetDTO {
     private Category category;
     private double price;
     private String[] issues;
     private int quantity;
 
-    public Asset(Category category, String assetName, double price, String[] issues, int quantity) {
+
+    public AssetDTO(double price, String[] issues, int quantity, Category category) {
         this.category = category;
-        this.id = id;
-        this.assetName = assetName;
         this.price = price;
         this.issues = issues;
         this.quantity = quantity;
     }
 
-    public Asset() {
+    public AssetDTO() {
     }
 
 
     public Category getCategory() {
-        return this.category;
+        return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAssetName() {
-        return this.assetName;
-    }
-
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
-    }
 
     public double getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(double price) {
@@ -56,7 +38,7 @@ public class Asset {
     }
 
     public String[] getIssues() {
-        return this.issues;
+        return issues;
     }
 
     public void setIssues(String[] issues) {
@@ -64,7 +46,7 @@ public class Asset {
     }
 
     public int getQuantity() {
-        return this.quantity;
+        return quantity;
     }
 
     public void setQuantity(int quantity) {
