@@ -1,22 +1,16 @@
 package com.garagesale.domain;
 
 public class User {
-    private String username;
+    private String userName;
     private String email;
 
 
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-
-
     public String getUsername() {
-        return this.username;
+        return this.userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public String getEmail() {

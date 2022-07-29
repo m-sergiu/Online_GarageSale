@@ -1,10 +1,10 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.*;
+import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.CreditCardNotAvailable;
+import com.garagesale.exceptions.CardNotAvailable;
 
-import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
@@ -12,8 +12,6 @@ public interface OrderService {
 
      Map<Category,Asset> getOrderCart();
      Order createOrder();
-     String addAssetToCart();
-     PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable;
-     User getUser();
-     CreditCard getCreditCard();
+     Asset addAssetToCart(Asset asset);
+     PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable;
 }

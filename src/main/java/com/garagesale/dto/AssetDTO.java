@@ -1,4 +1,4 @@
-package com.garagesale.DTO;
+package com.garagesale.dto;
 
 import com.garagesale.enums.Category;
 

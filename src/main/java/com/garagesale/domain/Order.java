@@ -9,7 +9,7 @@ public class Order {
     private int id;
     private User customer;
     private HashMap<Category, Asset> purchaseCart;
-    private CreditCard creditCard;
+    private Card card;
     private double purchaseBalance = 0;
 
     public double getPurchaseBalance() {
@@ -28,12 +28,12 @@ public class Order {
         this.id = id;
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
+    public Card getCard() {
+        return card;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
+    public void setCreditCard(Card card) {
+        this.card = card;
     }
 
     public User getCustomer() {

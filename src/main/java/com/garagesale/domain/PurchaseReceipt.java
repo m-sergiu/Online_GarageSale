@@ -6,7 +6,7 @@ import java.util.List;
 public class PurchaseReceipt {
     private String customerName;
     private String customerEmail;
-    private CreditCard creditCard;
+    private Card card;
     private int ID;
     private List<Asset> assetList;
     private double totalAmount;
@@ -15,12 +15,12 @@ public class PurchaseReceipt {
     public PurchaseReceipt() {
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
+    public Card getCard() {
+        return card;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
+    public void setCard(Card card) {
+        this.card = card;
     }
 
     public PurchaseReceipt(String customerName, String customerEmail, int ID, List<Asset> assetList, double totalAmount, String paymentDetails) {
@@ -80,16 +80,4 @@ public class PurchaseReceipt {
         this.paymentDetails = paymentDetails;
     }
 
-    @Override
-    public String toString() {
-        String result = customerName + ", thank you for buying from us. " +
-                "Here you have the receipt with ID " + ID +
-                ", of a total amount of: " + totalAmount +
-                " USD. The payment details: '" + paymentDetails + '\'' +
-                ", and the list of items:";
-        for (Asset temp : assetList) {
-            result += " " + temp.getAssetName() + ";";
-        }
-        return result;
-    }
 }

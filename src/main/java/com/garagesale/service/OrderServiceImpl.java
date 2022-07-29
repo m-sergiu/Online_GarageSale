@@ -1,8 +1,11 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.*;
+import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.CreditCardNotAvailable;
+import com.garagesale.exceptions.CardNotAvailable;
+import com.garagesale.mapping.OrderDTOMapping;
+import com.garagesale.repository.AssetRepository;
 import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +16,12 @@ import java.util.Map;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
+    private final AssetService assetService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, AssetService assetService) {
         this.orderRepository = orderRepository;
+        this.assetService = assetService;
     }
 
     @Override
@@ -35,18 +40,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String addAssetToCart() {
-        return orderRepository.addAssetToCart();
+    public Asset addAssetToCart(Asset asset) {
+        return orderRepository.addAssetToCart(asset);
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable {
-        PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
-        purchaseReceipt.setCustomerName(getUser().getUsername());
-        purchaseReceipt.setCustomerEmail(getUser().getEmail());
-        //Take from purchaseCart Map<Category,Asset> only the Asset list
-        purchaseReceipt.setAssetList(orderRepository.getOrder().getPurchaseCart().values().stream().toList());
-        purchaseReceipt.setCreditCard(getCreditCard());
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable {
+        Order order = createOrder();
+        order.setCreditCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
+        order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()));
+
+        PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
+        purchaseReceipt.setCard(order.getCard());
+        purchaseReceipt.setAssetList(order.getPurchaseCart().values().stream().toList());
 
         int totalBalance = 0;
         for (Asset asset : purchaseReceipt.getAssetList()) {
@@ -55,28 +61,19 @@ public class OrderServiceImpl implements OrderService {
         }
         purchaseReceipt.setTotalAmount(totalBalance);
 
-        if (!cardValidate(purchaseReceipt.getCreditCard())) {
-            throw new CreditCardNotAvailable("Credit card details are not good or expired");
-        } else if (purchaseReceipt.getTotalAmount() < totalBalance)
-            throw new CreditCardNotAvailable("Insufficient balance");
+        if (!cardValidate(purchaseReceipt.getCard())) {
+            throw new CardNotAvailable("Card details are not good or expired");
+        } else if (purchaseReceipt.getTotalAmount() > order.getCard().getBalance())
+            throw new CardNotAvailable("Insufficient balance");
         else {
-            purchaseReceipt.setPaymentDetails("payed by card: " + purchaseReceipt.getCreditCard().getCardNumber());
+            purchaseReceipt.setPaymentDetails("payed by card: " + purchaseReceipt.getCard().getCardNumber());
             return purchaseReceipt;
         }
     }
 
-    public boolean cardValidate(CreditCard creditCard) {
-        return creditCard.getCardNumber().length() == 16 && creditCard.getCIV().length() == 3 &&
-                creditCard.getExpiry().isAfter(LocalDate.now());
+    public boolean cardValidate(Card card) {
+        return card.getCardNumber().length() == 16 && card.getCIV().length() == 3 &&
+                card.getExpiry().isAfter(LocalDate.now());
     }
 
-    @Override
-    public User getUser() {
-        return orderRepository.getUser();
-    }
-
-    @Override
-    public CreditCard getCreditCard() {
-        return orderRepository.getCreditCard();
-    }
 }
