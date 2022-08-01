@@ -4,8 +4,8 @@ import com.garagesale.domain.*;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CardNotAvailable;
+import com.garagesale.exceptions.ProductDoesntExist;
 import com.garagesale.mapping.OrderDTOMapping;
-import com.garagesale.repository.AssetRepository;
 import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,10 +45,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable {
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist {
         Order order = createOrder();
         order.setCreditCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
-        order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()));
+
+        if(assetService.findAllAvailable().size() < orderDTO.getProductID().length){
+            throw new ProductDoesntExist("Product doesn't exist");
+        }
+        for(int i = 0; i<orderDTO.getProductID().length; i++) {
+                if (assetService.findById(orderDTO.getProductID()[i]).getQuantity() < 1)
+                {
+                    throw new ProductDoesntExist("product with ID: " + orderDTO.getProductID()[i]+ "  doesnt exist anymore");
+                }
+
+            else order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
+        }
 
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
         purchaseReceipt.setCard(order.getCard());
@@ -66,14 +77,13 @@ public class OrderServiceImpl implements OrderService {
         } else if (purchaseReceipt.getTotalAmount() > order.getCard().getBalance())
             throw new CardNotAvailable("Insufficient balance");
         else {
-            purchaseReceipt.setPaymentDetails("payed by card: " + purchaseReceipt.getCard().getCardNumber());
+            purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
             return purchaseReceipt;
         }
     }
 
     public boolean cardValidate(Card card) {
-        return card.getCardNumber().length() == 16 && card.getCIV().length() == 3 &&
-                card.getExpiry().isAfter(LocalDate.now());
+        return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth()<13;
     }
 
 }

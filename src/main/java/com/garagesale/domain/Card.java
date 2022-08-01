@@ -1,42 +1,49 @@
 package com.garagesale.domain;
 
-import com.garagesale.enums.CardType;
-
 import java.time.LocalDate;
+
 
 public class Card {
     private String cardNumber;
     private String cardHolderName;
-    private String CIV;
-    private LocalDate expiry;
+    private String civ;
+    private int year;
+    private int month;
     private double balance;
-    private CardType cardType;
 
-
-    public Card(String cardNumber, String cardHolderName, String CIV, LocalDate expiry) {
+    public Card(String cardNumber, String cardHolderName, String civ, int year, int month) {
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
-        this.CIV = CIV;
-        this.expiry = expiry;
+        this.civ = civ;
+        this.year = year;
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 
     public Card() {
     }
 
-    public String getCIV() {
-        return CIV;
+    public String getCiv() {
+        return civ;
     }
 
-    public void setCIV(String CIV) {
-        this.CIV = CIV;
-    }
-
-    public LocalDate getExpiry() {
-        return expiry;
-    }
-
-    public void setExpiry(LocalDate expiry) {
-        this.expiry = expiry;
+    public void setCiv(String civ) {
+        this.civ = civ;
     }
 
     public String getCardNumber() {
@@ -49,14 +56,6 @@ public class Card {
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    public CardType getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
     }
 
     public void setCardNumber(String cardNumber) {

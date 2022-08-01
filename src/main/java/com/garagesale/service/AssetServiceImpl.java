@@ -51,7 +51,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset findById(int id){
-        return findAll().get(id);
+        return findAll().get(id-1);
     }
 
 }

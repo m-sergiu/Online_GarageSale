@@ -6,6 +6,7 @@ import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CardNotAvailable;
+import com.garagesale.exceptions.ProductDoesntExist;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +27,38 @@ public class OrderController {
     public Order getOrder() {
         return orderService.getOrder();
     }
-
-    @GetMapping("/getOrderCart")
-    public Map<Category, Asset> getOrderCart() {
-        return orderService.getOrderCart();
-    }
-
-    @GetMapping("/createOrder")
+    @GetMapping("/create")
     public Order createOrder() {
         return orderService.createOrder();
     }
 
-    @PostMapping("/addAssetToCart")
-    public Asset addAssetToPurchaseCart(@RequestBody Asset asset) {
-
-        return orderService.addAssetToCart(asset);
+    @GetMapping("/getCart")
+    public Map<Category, Asset> getOrderCart() {
+        try {
+            return orderService.getOrderCart();
+        } catch(NullPointerException e){
+            createOrder();
+        }
+        return orderService.getOrderCart();
     }
 
+//    @PostMapping("/addAssetToCart")
+//    public Asset addAssetToPurchaseCart(@RequestBody Asset asset) {
+//        try {
+//            return orderService.addAssetToCart(asset);
+//        } catch(NullPointerException e){
+//            createOrder();
+//        }
+//        return orderService.addAssetToCart(asset);
+//    }
+
     @PostMapping("/pay")
-    public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO) throws CardNotAvailable {
+    public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist {
+        try {
+            return orderService.finalizeOrder(orderDTO);
+        } catch(NullPointerException e){
+            createOrder();
+        }
         return orderService.finalizeOrder(orderDTO);
     }
 
