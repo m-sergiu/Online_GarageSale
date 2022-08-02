@@ -1,7 +1,6 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.Asset;
-import com.garagesale.domain.Card;
 import com.garagesale.domain.Order;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
@@ -20,11 +19,13 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final AssetService assetService;
+    private final ValidatorService validatorService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, AssetService assetService) {
+    public OrderServiceImpl(OrderRepository orderRepository, AssetService assetService, ValidatorService validatorService) {
         this.orderRepository = orderRepository;
         this.assetService = assetService;
+        this.validatorService = validatorService;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
         }
         purchaseReceipt.setTotalAmount(totalBalance);
 
-        if (!cardValidate(purchaseReceipt.getCard())) {
+        if (!validatorService.cardValidate(purchaseReceipt.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
         } else if (purchaseReceipt.getTotalAmount() > order.getCard().getBalance())
             throw new CardNotAvailableException("Insufficient balance");
@@ -88,10 +89,6 @@ public class OrderServiceImpl implements OrderService {
             purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
             return purchaseReceipt;
         }
-    }
-
-    public boolean cardValidate(Card card) {
-        return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth() < 13 && card.getMonth() > 0;
     }
 
 }
