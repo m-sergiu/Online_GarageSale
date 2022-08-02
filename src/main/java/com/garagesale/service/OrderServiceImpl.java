@@ -1,10 +1,13 @@
 package com.garagesale.service;
 
-import com.garagesale.domain.*;
+import com.garagesale.domain.Asset;
+import com.garagesale.domain.Card;
+import com.garagesale.domain.Order;
+import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CardNotAvailableException;
-import com.garagesale.exceptions.NoOrderExistException;
+import com.garagesale.exceptions.OrderDoesNotExistException;
 import com.garagesale.exceptions.ProductDoesntExistException;
 import com.garagesale.mapping.OrderDTOMapping;
 import com.garagesale.repository.OrderRepository;
@@ -30,11 +33,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Category, Asset> getOrderCart() throws NoOrderExistException {
-        if(orderRepository.getOrder() == null){
-            throw new NoOrderExistException("No order available");
-        }
-       else return orderRepository.getOrderCart();
+    public Map<Category, Asset> getOrderCart() throws OrderDoesNotExistException {
+        if (orderRepository.getOrder() == null) {
+            throw new OrderDoesNotExistException("No order available");
+        } else return orderRepository.getOrderCart();
     }
 
     @Override
@@ -43,31 +45,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Asset addAssetToCart(Asset asset) throws NoOrderExistException {
-        if(orderRepository.getOrder() == null){
-            throw new NoOrderExistException("No order available");
+    public Asset addAssetToCart(Asset asset) throws OrderDoesNotExistException {
+        if (orderRepository.getOrder() == null) {
+            throw new OrderDoesNotExistException("No order available");
         }
         return orderRepository.addAssetToCart(asset);
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, NoOrderExistException {
-        if(orderRepository.getOrder() == null){
-            throw new NoOrderExistException("No order available");
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, OrderDoesNotExistException {
+        if (orderRepository.getOrder() == null) {
+            throw new OrderDoesNotExistException("No order available");
         }
         Order order = createOrder();
-        order.setCreditCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
+        order.setCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
 
-        if(assetService.findAllAvailable().size() < orderDTO.getProductID().length){
+        if (assetService.findAllAvailable().size() < orderDTO.getProductID().length) {
             throw new ProductDoesntExistException("Product doesn't exist");
         }
-        for(int i = 0; i<orderDTO.getProductID().length; i++) {
-                if (assetService.findById(orderDTO.getProductID()[i]).getQuantity() < 1)
-                {
-                    throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductID()[i]+ "  doesnt exist anymore");
-                }
-
-            else order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
+        for (int i = 0; i < orderDTO.getProductID().length; i++) {
+            if (assetService.findById(orderDTO.getProductID()[i]).getQuantity() < 1) {
+                throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductID()[i] + "  doesnt exist anymore");
+            } else order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
         }
 
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
@@ -92,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public boolean cardValidate(Card card) {
-        return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth()<13;
+        return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth() < 13 && card.getMonth() > 0;
     }
 
 }

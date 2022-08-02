@@ -4,7 +4,6 @@ import com.garagesale.domain.*;
 import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 

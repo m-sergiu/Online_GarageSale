@@ -15,14 +15,6 @@ public class PurchaseReceipt {
     public PurchaseReceipt() {
     }
 
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
-    }
-
     public PurchaseReceipt(String customerName, String customerEmail, int ID, List<Asset> assetList, double totalAmount, String paymentDetails) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
@@ -31,6 +23,15 @@ public class PurchaseReceipt {
         this.totalAmount = totalAmount;
         this.paymentDetails = paymentDetails;
     }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
+
 
     public String getCustomerName() {
         return customerName;

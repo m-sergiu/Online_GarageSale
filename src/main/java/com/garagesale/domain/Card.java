@@ -1,8 +1,5 @@
 package com.garagesale.domain;
 
-import java.time.LocalDate;
-
-
 public class Card {
     private String cardNumber;
     private String cardHolderName;
@@ -10,6 +7,9 @@ public class Card {
     private int year;
     private int month;
     private double balance;
+
+    public Card() {
+    }
 
     public Card(String cardNumber, String cardHolderName, String civ, int year, int month) {
         this.cardNumber = cardNumber;
@@ -35,9 +35,6 @@ public class Card {
         this.month = month;
     }
 
-    public Card() {
-    }
-
     public String getCiv() {
         return civ;
     }
@@ -50,16 +47,16 @@ public class Card {
         return cardNumber;
     }
 
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     public double getBalance() {
         return balance;
     }
 
     public void setBalance(double balance) {
         this.balance = balance;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
     }
 
     public String getCardHolderName() {

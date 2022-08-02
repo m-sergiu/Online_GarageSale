@@ -5,7 +5,7 @@ import com.garagesale.domain.Order;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.NoOrderExistException;
+import com.garagesale.exceptions.OrderDoesNotExistException;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +35,7 @@ public class OrderController {
     public Map<Category, Asset> getOrderCart(){
         try {
             return orderService.getOrderCart();
-        } catch(NoOrderExistException e){
+        } catch(OrderDoesNotExistException e){
             System.out.println(e);
             createOrder();
         }
@@ -56,7 +56,7 @@ public class OrderController {
     public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO){
         try {
             return orderService.finalizeOrder(orderDTO);
-        } catch(NoOrderExistException e){
+        } catch(OrderDoesNotExistException e){
             System.out.println(e);
             createOrder();
         }

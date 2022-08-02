@@ -32,7 +32,7 @@ public class Order {
         return card;
     }
 
-    public void setCreditCard(Card card) {
+    public void setCard(Card card) {
         this.card = card;
     }
 
@@ -52,7 +52,7 @@ public class Order {
         this.purchaseCart = purchaseCart;
     }
 
-    public void addAssetToOrderCart(Asset asset){
-        purchaseCart.put(asset.getCategory(),asset);
+    public void addAssetToOrderCart(Asset asset) {
+        purchaseCart.put(asset.getCategory(), asset);
     }
 }
