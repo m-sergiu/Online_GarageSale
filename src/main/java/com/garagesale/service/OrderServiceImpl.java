@@ -4,6 +4,7 @@ import com.garagesale.domain.*;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
 import com.garagesale.exceptions.CardNotAvailable;
+import com.garagesale.exceptions.NoOrderExistException;
 import com.garagesale.exceptions.ProductDoesntExist;
 import com.garagesale.mapping.OrderDTOMapping;
 import com.garagesale.repository.OrderRepository;
@@ -30,8 +31,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map<Category, Asset> getOrderCart() {
-        return orderRepository.getOrderCart();
+    public Map<Category, Asset> getOrderCart() throws NoOrderExistException {
+        if(orderRepository.getOrder() == null){
+            throw new NoOrderExistException("No order available");
+        }
+       else return orderRepository.getOrderCart();
     }
 
     @Override
@@ -40,12 +44,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Asset addAssetToCart(Asset asset) {
+    public Asset addAssetToCart(Asset asset) throws NoOrderExistException {
+        if(orderRepository.getOrder() == null){
+            throw new NoOrderExistException("No order available");
+        }
         return orderRepository.addAssetToCart(asset);
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist {
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist, NoOrderExistException {
+        if(orderRepository.getOrder() == null){
+            throw new NoOrderExistException("No order available");
+        }
         Order order = createOrder();
         order.setCreditCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
 
