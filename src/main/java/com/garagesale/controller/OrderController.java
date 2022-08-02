@@ -3,18 +3,17 @@ package com.garagesale.controller;
 import com.garagesale.domain.Asset;
 import com.garagesale.domain.Order;
 import com.garagesale.domain.PurchaseReceipt;
+import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.CreditCardNotAvailable;
+import com.garagesale.exceptions.OrderDoesNotExistException;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -27,24 +26,33 @@ public class OrderController {
     public Order getOrder() {
         return orderService.getOrder();
     }
-
-    @GetMapping("/getOrderCart")
-    public Map<Category, Asset> getOrderCart() {
-        return orderService.getOrderCart();
-    }
-
-    @GetMapping("/createOrder")
+    @GetMapping("/create")
     public Order createOrder() {
         return orderService.createOrder();
     }
 
-    @GetMapping("/addAssetToCart")
-    public String addAssetToPurchaseCart() {
-        return orderService.addAssetToCart();
+    @GetMapping("/getCart")
+    public Map<Category, Asset> getOrderCart(){
+        try {
+            return orderService.getOrderCart();
+        } catch(OrderDoesNotExistException e){
+            System.out.println(e);
+            createOrder();
+        }
+        return orderService.getOrderCart();
     }
 
-    @RequestMapping("/finalizeOrder")
-    public PurchaseReceipt finalizeOrder() throws CreditCardNotAvailable {
-        return orderService.finalizeOrder();
+
+
+    @PostMapping("/pay")
+    public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO){
+        try {
+            return orderService.finalizeOrder(orderDTO);
+        } catch(OrderDoesNotExistException e){
+            System.out.println(e);
+            createOrder();
+        }
+        return orderService.finalizeOrder(orderDTO);
     }
+
 }

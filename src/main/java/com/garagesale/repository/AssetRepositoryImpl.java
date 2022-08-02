@@ -1,7 +1,6 @@
 package com.garagesale.repository;
 
 import com.garagesale.domain.Asset;
-import com.garagesale.enums.Category;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

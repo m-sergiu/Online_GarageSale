@@ -48,4 +48,9 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.findAll().size() + 1;
     }
 
+    @Override
+    public Asset findById(int id){
+        return findAll().get(id-1);
+    }
+
 }

@@ -9,5 +9,6 @@ public interface AssetService {
     List<Asset> findAll();
     List<Asset> findAllAvailable();
     Asset createAsset(AssetDTO assetDTO);
+    Asset findById(int id);
 
 }
