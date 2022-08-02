@@ -3,15 +3,14 @@ package com.garagesale.service;
 import com.garagesale.domain.*;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.CardNotAvailable;
+import com.garagesale.exceptions.CardNotAvailableException;
 import com.garagesale.exceptions.NoOrderExistException;
-import com.garagesale.exceptions.ProductDoesntExist;
+import com.garagesale.exceptions.ProductDoesntExistException;
 import com.garagesale.mapping.OrderDTOMapping;
 import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 @Service
@@ -52,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist, NoOrderExistException {
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, NoOrderExistException {
         if(orderRepository.getOrder() == null){
             throw new NoOrderExistException("No order available");
         }
@@ -60,12 +59,12 @@ public class OrderServiceImpl implements OrderService {
         order.setCreditCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
 
         if(assetService.findAllAvailable().size() < orderDTO.getProductID().length){
-            throw new ProductDoesntExist("Product doesn't exist");
+            throw new ProductDoesntExistException("Product doesn't exist");
         }
         for(int i = 0; i<orderDTO.getProductID().length; i++) {
                 if (assetService.findById(orderDTO.getProductID()[i]).getQuantity() < 1)
                 {
-                    throw new ProductDoesntExist("product with ID: " + orderDTO.getProductID()[i]+ "  doesnt exist anymore");
+                    throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductID()[i]+ "  doesnt exist anymore");
                 }
 
             else order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
@@ -83,9 +82,9 @@ public class OrderServiceImpl implements OrderService {
         purchaseReceipt.setTotalAmount(totalBalance);
 
         if (!cardValidate(purchaseReceipt.getCard())) {
-            throw new CardNotAvailable("Card details are not good or expired");
+            throw new CardNotAvailableException("Card details are not good or expired");
         } else if (purchaseReceipt.getTotalAmount() > order.getCard().getBalance())
-            throw new CardNotAvailable("Insufficient balance");
+            throw new CardNotAvailableException("Insufficient balance");
         else {
             purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
             return purchaseReceipt;

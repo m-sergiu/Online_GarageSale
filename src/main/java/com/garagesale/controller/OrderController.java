@@ -5,9 +5,7 @@ import com.garagesale.domain.Order;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
-import com.garagesale.exceptions.CardNotAvailable;
 import com.garagesale.exceptions.NoOrderExistException;
-import com.garagesale.exceptions.ProductDoesntExist;
 import com.garagesale.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +32,7 @@ public class OrderController {
     }
 
     @GetMapping("/getCart")
-    public Map<Category, Asset> getOrderCart() throws NoOrderExistException {
+    public Map<Category, Asset> getOrderCart(){
         try {
             return orderService.getOrderCart();
         } catch(NoOrderExistException e){
@@ -45,7 +43,7 @@ public class OrderController {
     }
 
 //    @PostMapping("/addAssetToCart")
-//    public Asset addAssetToPurchaseCart(@RequestBody Asset asset) throws NoOrderExistException {
+//    public Asset addAssetToPurchaseCart(@RequestBody Asset asset){
 //        try {
 //            return orderService.addAssetToCart(asset);
 //        } catch(NoOrderExistException e){
@@ -55,7 +53,7 @@ public class OrderController {
 //    }
 
     @PostMapping("/pay")
-    public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO) throws CardNotAvailable, ProductDoesntExist, NoOrderExistException {
+    public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO){
         try {
             return orderService.finalizeOrder(orderDTO);
         } catch(NoOrderExistException e){
