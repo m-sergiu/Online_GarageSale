@@ -57,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderRepository.getOrder() == null) {
             throw new OrderDoesNotExistException("No order available");
         }
-        Order order = createOrder();
+        Order order = orderRepository.getOrder();
         order.setCard(OrderDTOMapping.dtoToCreditCard(orderDTO));
 
         if (assetService.findAllAvailable().size() < orderDTO.getProductID().length) {

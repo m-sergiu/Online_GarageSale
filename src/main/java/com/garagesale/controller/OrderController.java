@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
 
@@ -42,15 +42,7 @@ public class OrderController {
         return orderService.getOrderCart();
     }
 
-//    @PostMapping("/addAssetToCart")
-//    public Asset addAssetToPurchaseCart(@RequestBody Asset asset){
-//        try {
-//            return orderService.addAssetToCart(asset);
-//        } catch(NoOrderExistException e){
-//            createOrder();
-//        }
-//        return orderService.addAssetToCart(asset);
-//    }
+
 
     @PostMapping("/pay")
     public PurchaseReceipt finalizeOrder(@RequestBody OrderDTO orderDTO){
