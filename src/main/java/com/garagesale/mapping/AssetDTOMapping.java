@@ -1,27 +1,30 @@
 package com.garagesale.mapping;
 
-import com.garagesale.dto.AssetDTO;
 import com.garagesale.domain.Asset;
+import com.garagesale.domain.Issues;
+import com.garagesale.dto.AssetDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AssetDTOMapping {
-    private AssetDTOMapping(){}
 
-    public static Asset dtoToAsset(AssetDTO assetDTO){
+    public static Asset dtoToAsset(AssetDTO assetDTO) {
         Asset asset = new Asset();
         asset.setCategory(assetDTO.getCategory());
         asset.setQuantity(assetDTO.getQuantity());
         asset.setPrice(assetDTO.getPrice());
-        asset.setIssues(assetDTO.getIssues());
+        asset.setIssues(dtoToIssues(assetDTO));
         return asset;
     }
 
-    public static AssetDTO assetToDTO(Asset asset){
-        AssetDTO assetDTO = new AssetDTO();
-        assetDTO.setPrice(asset.getPrice());
-        assetDTO.setCategory(asset.getCategory());
-        assetDTO.setIssues(asset.getIssues());
-        assetDTO.setQuantity(asset.getQuantity());
-        return assetDTO;
-
+    public static List<Issues> dtoToIssues(AssetDTO assetDTO) {
+        List<Issues> list = new ArrayList<>();
+        for (Issues DTOissue : assetDTO.getIssues()) {
+            Issues issues = new Issues();
+            issues.setDescription(DTOissue.getDescription());
+            list.add(issues);
+        }
+        return list;
     }
 }

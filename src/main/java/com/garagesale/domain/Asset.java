@@ -2,22 +2,23 @@ package com.garagesale.domain;
 
 import com.garagesale.enums.Category;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table
 public class Asset {
-    private int id;
-    private String assetName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long asset_id;
+    @Enumerated(EnumType.STRING)
     private Category category;
     private double price;
-    private String[] issues;
+    @OneToMany
+    @JoinColumn(name = "issues_id")
+    private List<Issues> issues;
     private int quantity;
 
-    public Asset(Category category, String assetName, double price, String[] issues, int quantity) {
-        this.category = category;
-        this.id = id;
-        this.assetName = assetName;
-        this.price = price;
-        this.issues = issues;
-        this.quantity = quantity;
-    }
 
     public Asset() {
     }
@@ -31,21 +32,14 @@ public class Asset {
         this.category = category;
     }
 
-    public int getId() {
-        return this.id;
+    public Long getAsset_id() {
+        return this.asset_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAsset_id(Long asset_id) {
+        this.asset_id = asset_id;
     }
 
-    public String getAssetName() {
-        return this.assetName;
-    }
-
-    public void setAssetName(String assetName) {
-        this.assetName = assetName;
-    }
 
     public double getPrice() {
         return this.price;
@@ -55,11 +49,11 @@ public class Asset {
         this.price = price;
     }
 
-    public String[] getIssues() {
-        return this.issues;
+    public List<Issues> getIssues() {
+        return issues;
     }
 
-    public void setIssues(String[] issues) {
+    public void setIssues(List<Issues> issues) {
         this.issues = issues;
     }
 

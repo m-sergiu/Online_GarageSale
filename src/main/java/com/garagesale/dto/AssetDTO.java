@@ -1,24 +1,18 @@
 package com.garagesale.dto;
 
+import com.garagesale.domain.Issues;
 import com.garagesale.enums.Category;
+
+import java.util.List;
 
 public class AssetDTO {
     private Category category;
     private double price;
-    private String[] issues;
+    private List<Issues> issues;
     private int quantity;
-
-
-    public AssetDTO(double price, String[] issues, int quantity, Category category) {
-        this.category = category;
-        this.price = price;
-        this.issues = issues;
-        this.quantity = quantity;
-    }
 
     public AssetDTO() {
     }
-
 
     public Category getCategory() {
         return category;
@@ -37,11 +31,11 @@ public class AssetDTO {
         this.price = price;
     }
 
-    public String[] getIssues() {
+    public List<Issues> getIssues() {
         return issues;
     }
 
-    public void setIssues(String[] issues) {
+    public void setIssues(List<Issues> issues) {
         this.issues = issues;
     }
 

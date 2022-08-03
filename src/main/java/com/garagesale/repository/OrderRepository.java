@@ -1,13 +1,8 @@
 package com.garagesale.repository;
 
-import com.garagesale.domain.*;
-import com.garagesale.enums.Category;
+import com.garagesale.domain.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Map;
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-public interface OrderRepository {
-    Order getOrder();
-    Map<Category,Asset> getOrderCart();
-    Order createOrder();
-    Asset addAssetToCart(Asset asset);
 }

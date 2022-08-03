@@ -1,23 +1,24 @@
 package com.garagesale.service;
 
-import com.garagesale.dto.AssetDTO;
-import com.garagesale.mapping.AssetDTOMapping;
 import com.garagesale.domain.Asset;
+import com.garagesale.dto.AssetDTO;
+import com.garagesale.exceptions.ProductDoesntExistException;
+import com.garagesale.mapping.AssetDTOMapping;
 import com.garagesale.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("assetService")
 public class AssetServiceImpl implements AssetService {
 
-    private AssetRepository assetRepository;
+    private final AssetRepository assetRepository;
 
     @Autowired
     public AssetServiceImpl(AssetRepository assetRepository) {
-
         this.assetRepository = assetRepository;
     }
 
@@ -27,10 +28,10 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public List<Asset> findAllAvailable(){
+    public List<Asset> findAllAvailable() {
         List<Asset> list = new ArrayList<>(assetRepository.findAll());
-        for(Asset asset: assetRepository.findAll()){
-            if (asset.getQuantity() < 1){
+        for (Asset asset : assetRepository.findAll()) {
+            if (asset.getQuantity() < 1) {
                 list.remove(asset);
             }
         }
@@ -38,20 +39,19 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public Asset createAsset(AssetDTO assetDTO){
+    public void createAsset(AssetDTO assetDTO) {
         Asset asset = AssetDTOMapping.dtoToAsset(assetDTO);
-        asset.setId(returnLastId());
-        return assetRepository.createAsset(asset);
+        assetRepository.save(asset);
     }
 
-    public int returnLastId(){
-        int result = assetRepository.findAll().size();
-        return result + 1;
-    }
 
     @Override
-    public Asset findById(int id){
-        return findAll().get(id-1);
+    public Asset findById(Long id) {
+        Optional<Asset> optionalAsset = assetRepository.findById(id);
+        if (optionalAsset.isEmpty()) {
+            throw new ProductDoesntExistException("product id is invalid: " + id);
+        }
+        return optionalAsset.get();
     }
 
 }

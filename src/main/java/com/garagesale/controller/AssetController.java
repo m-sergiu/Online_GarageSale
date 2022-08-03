@@ -1,7 +1,7 @@
 package com.garagesale.controller;
 
-import com.garagesale.dto.AssetDTO;
 import com.garagesale.domain.Asset;
+import com.garagesale.dto.AssetDTO;
 import com.garagesale.service.AssetService;
 import com.garagesale.service.AssetServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,10 @@ public class AssetController {
     public List<Asset> findAllAvailable() {
         return assetService.findAllAvailable();
     }
+
     @PostMapping
-    public Asset createAsset(@RequestBody AssetDTO assetDTO){
-        return assetService.createAsset(assetDTO);
+    public void createAsset(@RequestBody AssetDTO assetDTO) {
+        assetService.createAsset(assetDTO);
     }
 
 

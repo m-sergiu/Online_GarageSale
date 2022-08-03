@@ -12,6 +12,7 @@ public class OrderDTO {
         this.productID = productID;
         this.customerName = customerName;
     }
+
     public Card getCard() {
         return card;
     }

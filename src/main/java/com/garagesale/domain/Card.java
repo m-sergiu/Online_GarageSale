@@ -1,6 +1,16 @@
 package com.garagesale.domain;
 
+
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "CARD_TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Card {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String cardNumber;
     private String cardHolderName;
     private String civ;
@@ -8,15 +18,23 @@ public class Card {
     private int month;
     private double balance;
 
-    public Card() {
-    }
-
     public Card(String cardNumber, String cardHolderName, String civ, int year, int month) {
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
         this.civ = civ;
         this.year = year;
         this.month = month;
+    }
+
+    public Card() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getYear() {
