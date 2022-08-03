@@ -81,9 +81,9 @@ public class OrderServiceImpl implements OrderService {
         }
         purchaseReceipt.setTotalAmount(totalBalance);
 
-        if (!validatorService.cardValidate(purchaseReceipt.getCard())) {
+        if (!validatorService.validateCardDetails(purchaseReceipt.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
-        } else if (purchaseReceipt.getTotalAmount() > order.getCard().getBalance())
+        } else if (!validatorService.validatePurchaseDetails(purchaseReceipt, order))
             throw new CardNotAvailableException("Insufficient balance");
         else {
             purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
