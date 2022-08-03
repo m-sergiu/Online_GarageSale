@@ -37,7 +37,8 @@ public class OrderServiceImpl implements OrderService {
     public Map<Category, Asset> getOrderCart() throws OrderDoesNotExistException {
         if (orderRepository.getOrder() == null) {
             throw new OrderDoesNotExistException("No order available");
-        } else return orderRepository.getOrderCart();
+        }
+        return orderRepository.getOrderCart();
     }
 
     @Override
@@ -67,7 +68,8 @@ public class OrderServiceImpl implements OrderService {
         for (int i = 0; i < orderDTO.getProductID().length; i++) {
             if (assetService.findById(orderDTO.getProductID()[i]).getQuantity() < 1) {
                 throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductID()[i] + "  doesnt exist anymore");
-            } else order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
+            }
+            order.addAssetToOrderCart(assetService.findById(orderDTO.getProductID()[i]));
         }
 
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
