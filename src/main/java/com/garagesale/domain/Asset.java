@@ -3,6 +3,7 @@ package com.garagesale.domain;
 import com.garagesale.enums.Category;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,8 @@ public class Asset {
     private Category category;
     private double price;
     @OneToMany
-    @JoinColumn(name = "issues_id")
-    private List<Issues> issues;
+    @JoinColumn(name = "issue_id")
+    private List<Issue> issues = new ArrayList<>();
     private int quantity;
 
 
@@ -49,11 +50,11 @@ public class Asset {
         this.price = price;
     }
 
-    public List<Issues> getIssues() {
+    public List<Issue> getIssues() {
         return issues;
     }
 
-    public void setIssues(List<Issues> issues) {
+    public void setIssues(List<Issue> issues) {
         this.issues = issues;
     }
 

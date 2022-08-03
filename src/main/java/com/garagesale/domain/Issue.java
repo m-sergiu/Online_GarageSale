@@ -5,18 +5,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Issues {
+public class Issue {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long issue_id;
     private String description;
 
-    public Long getId() {
-        return id;
+    public Long getIssue_id() {
+        return issue_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIssue_id(Long issue_id) {
+        this.issue_id = issue_id;
     }
 
     public String getDescription() {
