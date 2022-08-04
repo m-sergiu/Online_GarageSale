@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, OrderDoesNotExistException {
 
-        if (!validatorService.cardValidate(orderDTO.getCard())) {
+        if (!validatorService.validateCardDetails(orderDTO.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
         }
         Order order = OrderDTOMapping.dtoToOrder(orderDTO);
@@ -55,8 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 asset.setQuantity(asset.getQuantity() - 1);
                 assetRepository.save(asset);
             }
-        } if (order.getPurchaseBalance() > order.getCard().getBalance())
-            throw new CardNotAvailableException("Insufficient balance");
+        } if (order.getPurchaseBalance() > order.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
         order.setAssets(assetList);
         orderRepository.save(order);
 

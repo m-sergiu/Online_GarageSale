@@ -1,19 +1,15 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.Card;
-import org.springframework.stereotype.Service;
+import com.garagesale.domain.Order;
+import com.garagesale.domain.PurchaseReceipt;
 
-@Service("validatorService")
 public class ValidatorService {
-    public boolean cardValidate(Card card) {
-        boolean result = false;
-        if (card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth() < 13 && card.getMonth() > 0) {
-            if (checkLuhn(card.getCardNumber())) result = true;
-        }
-        return result;
+    public boolean validateCardDetails(Card card) {
+        return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth() < 13 && card.getMonth() > 0 && checkLuhnAlg(card.getCardNumber());
     }
 
-    private boolean checkLuhn(String cardNr) {
+    private boolean checkLuhnAlg(String cardNr) {
         int[] cardArray = new int[cardNr.length()];
 
         for (int i = 0; i < cardNr.length(); i++) {
@@ -36,4 +32,5 @@ public class ValidatorService {
         }
         return (sum % 10 == 0);
     }
+
 }
