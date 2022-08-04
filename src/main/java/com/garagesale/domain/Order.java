@@ -9,11 +9,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String customerName;
-    @OneToMany
-    @JoinColumn(name = "asset_id")
+    private String customerEmail;
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
     private List<Asset> assets;
-    @OneToOne
-    @JoinColumn(name = "card_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Card card;
     private double purchaseBalance = 0;
 
@@ -24,6 +23,14 @@ public class Order {
 
     public void setPurchaseBalance(double purchaseBalance) {
         this.purchaseBalance = purchaseBalance;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public Long getId() {

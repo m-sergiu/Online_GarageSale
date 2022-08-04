@@ -10,20 +10,20 @@ import java.util.List;
 @Table
 public class Asset {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long asset_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Enumerated(EnumType.STRING)
     private Category category;
     private double price;
-    @OneToMany
-    @JoinColumn(name = "issue_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asset", fetch = FetchType.EAGER)
     private List<Issue> issues = new ArrayList<>();
     private int quantity;
+    @ManyToOne
+    private Order order;
 
 
     public Asset() {
     }
-
 
     public Category getCategory() {
         return this.category;
@@ -33,12 +33,12 @@ public class Asset {
         this.category = category;
     }
 
-    public Long getAsset_id() {
-        return this.asset_id;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setAsset_id(Long asset_id) {
-        this.asset_id = asset_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

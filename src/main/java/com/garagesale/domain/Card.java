@@ -8,9 +8,11 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "CARD_TYPE", discriminatorType = DiscriminatorType.STRING)
 public class Card {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne
+    private Order order;
     private String cardNumber;
     private String cardHolderName;
     private String civ;

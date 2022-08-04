@@ -6,11 +6,21 @@ public class OrderDTO {
     private Card card;
     private int[] productID;
     private String customerName;
+    private String customerEmail;
 
-    public OrderDTO(Card card, int[] productID, String customerName) {
+    public OrderDTO(Card card, int[] productID, String customerName, String customerEmail) {
         this.card = card;
         this.productID = productID;
         this.customerName = customerName;
+        this.customerEmail = customerEmail;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
     public Card getCard() {

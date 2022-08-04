@@ -13,6 +13,7 @@ public class OrderDTOMapping {
     public static Order dtoToOrder(OrderDTO orderDTO) {
         Order order = new Order();
         order.setCustomerName(orderDTO.getCustomerName());
+        order.setCustomerEmail(orderDTO.getCustomerEmail());
         order.setCard(dtoToCreditCard(orderDTO));
         return order;
     }
@@ -30,6 +31,7 @@ public class OrderDTOMapping {
     public static PurchaseReceipt dtoToPurchaseReceipt(OrderDTO orderDTO) {
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
         purchaseReceipt.setCustomerName(orderDTO.getCustomerName());
+        purchaseReceipt.setCustomerEmail(orderDTO.getCustomerEmail());
         return purchaseReceipt;
     }
 }

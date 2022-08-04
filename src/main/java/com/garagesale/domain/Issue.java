@@ -1,22 +1,31 @@
 package com.garagesale.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Issue {
     @Id
-    @GeneratedValue
-    private Long issue_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String description;
+    @ManyToOne
+    private Asset asset;
 
-    public Long getIssue_id() {
-        return issue_id;
+    public Asset getAsset() {
+        return asset;
     }
 
-    public void setIssue_id(Long issue_id) {
-        this.issue_id = issue_id;
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescription() {
