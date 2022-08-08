@@ -1,5 +1,6 @@
 package com.garagesale.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.garagesale.enums.Category;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "asset")
 public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +16,13 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private Category category;
     private double price;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asset", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asset", fetch = FetchType.LAZY)
     private List<Issue> issues = new ArrayList<>();
     private int quantity;
-    @ManyToOne
-    private Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchaseOrder_id", referencedColumnName = "id")
+    @JsonIgnore
+    private PurchaseOrder purchaseOrder;
 
 
     public Asset() {

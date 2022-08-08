@@ -44,7 +44,6 @@ public class AssetServiceImpl implements AssetService {
         assetRepository.save(asset);
     }
 
-
     @Override
     public Asset findById(Long id) {
         Optional<Asset> optionalAsset = assetRepository.findById(id);

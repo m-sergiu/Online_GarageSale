@@ -2,7 +2,7 @@ package com.garagesale.mapping;
 
 import com.garagesale.domain.Card;
 import com.garagesale.domain.CreditCard;
-import com.garagesale.domain.Order;
+import com.garagesale.domain.PurchaseOrder;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 
@@ -10,21 +10,22 @@ public class OrderDTOMapping {
     private OrderDTOMapping() {
     }
 
-    public static Order dtoToOrder(OrderDTO orderDTO) {
-        Order order = new Order();
-        order.setCustomerName(orderDTO.getCustomerName());
-        order.setCustomerEmail(orderDTO.getCustomerEmail());
-        order.setCard(dtoToCreditCard(orderDTO));
-        return order;
+    public static PurchaseOrder dtoToOrder(OrderDTO orderDTO) {
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setCustomerName(orderDTO.getCustomerName());
+        purchaseOrder.setCustomerEmail(orderDTO.getCustomerEmail());
+        purchaseOrder.setCard(dtoToCreditCard(orderDTO, purchaseOrder));
+        return purchaseOrder;
     }
 
-    public static Card dtoToCreditCard(OrderDTO orderDTO) {
+    public static Card dtoToCreditCard(OrderDTO orderDTO, PurchaseOrder purchaseOrder) {
         Card card = new CreditCard();
         card.setCardHolderName(orderDTO.getCard().getCardHolderName());
         card.setCardNumber(orderDTO.getCard().getCardNumber());
         card.setCiv(orderDTO.getCard().getCiv());
         card.setYear(orderDTO.getCard().getYear());
         card.setMonth(orderDTO.getCard().getMonth());
+        card.setPurchaseOrder(purchaseOrder);
         return card;
     }
 

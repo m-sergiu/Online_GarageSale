@@ -4,13 +4,13 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Order {
+public class PurchaseOrder {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String customerName;
     private String customerEmail;
-    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrder")
     private List<Asset> assets;
     @OneToOne(cascade = CascadeType.ALL)
     private Card card;

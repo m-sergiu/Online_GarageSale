@@ -8,11 +8,7 @@ public class OrderDTO {
     private String customerName;
     private String customerEmail;
 
-    public OrderDTO(Card card, int[] productID, String customerName, String customerEmail) {
-        this.card = card;
-        this.productID = productID;
-        this.customerName = customerName;
-        this.customerEmail = customerEmail;
+    public OrderDTO(){
     }
 
     public String getCustomerEmail() {

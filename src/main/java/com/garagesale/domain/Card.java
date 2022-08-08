@@ -5,14 +5,14 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "CARD_TYPE", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "card_type", discriminatorType = DiscriminatorType.STRING)
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    private Order order;
+    private PurchaseOrder purchaseOrder;
     private String cardNumber;
     private String cardHolderName;
     private String civ;
@@ -37,6 +37,14 @@ public class Card {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 
     public int getYear() {

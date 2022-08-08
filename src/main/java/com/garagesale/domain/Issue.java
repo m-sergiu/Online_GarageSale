@@ -1,15 +1,24 @@
 package com.garagesale.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "issue")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    @ManyToOne
+    @ManyToOne( fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "asset_id", referencedColumnName = "id")
+    @JsonIgnore
     private Asset asset;
+
+    public Issue() {
+    }
+
 
     public Asset getAsset() {
         return asset;
@@ -18,7 +27,6 @@ public class Issue {
     public void setAsset(Asset asset) {
         this.asset = asset;
     }
-
 
     public Long getId() {
         return id;

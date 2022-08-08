@@ -1,7 +1,7 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.Asset;
-import com.garagesale.domain.Order;
+import com.garagesale.domain.PurchaseOrder;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.exceptions.CardNotAvailableException;
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
         if (!validatorService.validateCardDetails(orderDTO.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
         }
-        Order order = OrderDTOMapping.dtoToOrder(orderDTO);
+        PurchaseOrder purchaseOrder = OrderDTOMapping.dtoToOrder(orderDTO);
         List<Asset> assetList = new ArrayList<>();
         //loop through assets-dtoProductID
         for (int i = 0; i < orderDTO.getProductID().length; i++) {
@@ -50,20 +50,22 @@ public class OrderServiceImpl implements OrderService {
                 for (Asset listAsset : assetList) {
                     if (asset.getCategory() == listAsset.getCategory())
                         throw new ProductAlreadyInCartException("You already have 1 item of type: " + asset.getCategory() + " in your cart.");
-                } order.setPurchaseBalance(order.getPurchaseBalance() + asset.getPrice());
+                } purchaseOrder.setPurchaseBalance(purchaseOrder.getPurchaseBalance() + asset.getPrice());
                 assetList.add(asset);
-                asset.setQuantity(asset.getQuantity() - 1);
-                assetRepository.save(asset);
             }
-        } if (order.getPurchaseBalance() > order.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
-        order.setAssets(assetList);
-        orderRepository.save(order);
+        } if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
+        purchaseOrder.setAssets(assetList);
+        orderRepository.save(purchaseOrder);
+        for(Asset asset: purchaseOrder.getAssets()){
+            asset.setQuantity(asset.getQuantity() - 1);
+            assetRepository.save(asset);
+        }
 
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
-        purchaseReceipt.setCustomerName(order.getCustomerName());
-        purchaseReceipt.setCard(order.getCard());
-        purchaseReceipt.setAssets(order.getAssets());
-        purchaseReceipt.setTotalAmount(order.getPurchaseBalance());
+        purchaseReceipt.setCustomerName(purchaseOrder.getCustomerName());
+        purchaseReceipt.setCard(purchaseOrder.getCard());
+        purchaseReceipt.setAssets(purchaseOrder.getAssets());
+        purchaseReceipt.setTotalAmount(purchaseOrder.getPurchaseBalance());
         purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
         return purchaseReceipt;
 

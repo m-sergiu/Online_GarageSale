@@ -14,15 +14,16 @@ public class AssetDTOMapping {
         asset.setCategory(assetDTO.getCategory());
         asset.setQuantity(assetDTO.getQuantity());
         asset.setPrice(assetDTO.getPrice());
-        asset.setIssues(dtoToIssues(assetDTO));
+        asset.setIssues(dtoToIssues(assetDTO, asset));
         return asset;
     }
 
-    public static List<Issue> dtoToIssues(AssetDTO assetDTO) {
+    public static List<Issue> dtoToIssues(AssetDTO assetDTO, Asset asset) {
         List<Issue> list = new ArrayList<>();
         for (Issue DTOissue : assetDTO.getIssues()) {
             Issue issue = new Issue();
             issue.setDescription(DTOissue.getDescription());
+            issue.setAsset(asset);
             list.add(issue);
         }
         return list;

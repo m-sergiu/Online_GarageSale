@@ -1,9 +1,9 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.Card;
-import com.garagesale.domain.Order;
-import com.garagesale.domain.PurchaseReceipt;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ValidatorService {
     public boolean validateCardDetails(Card card) {
         return card.getCardNumber().length() == 16 && card.getCiv().length() == 3 && card.getYear() < 100 && card.getMonth() < 13 && card.getMonth() > 0 && checkLuhnAlg(card.getCardNumber());
