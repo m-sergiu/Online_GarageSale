@@ -1,6 +1,7 @@
 package com.garagesale.domain;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,11 @@ public class PurchaseOrder {
     @OneToOne(cascade = CascadeType.ALL)
     private Card card;
     private double purchaseBalance = 0;
+    @Column(columnDefinition = "dateTime")
+    private LocalDateTime dateTime;
 
+    public PurchaseOrder() {
+    }
 
     public double getPurchaseBalance() {
         return purchaseBalance;
@@ -47,6 +52,14 @@ public class PurchaseOrder {
 
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     public void setCreditCard(Card card) {

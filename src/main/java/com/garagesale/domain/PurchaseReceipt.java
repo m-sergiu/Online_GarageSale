@@ -1,5 +1,6 @@
 package com.garagesale.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PurchaseReceipt {
@@ -9,6 +10,7 @@ public class PurchaseReceipt {
     private List<Asset> assets;
     private double totalAmount;
     private String paymentDetails;
+    private LocalDateTime dateTime;
 
 
     public PurchaseReceipt() {
@@ -64,4 +66,11 @@ public class PurchaseReceipt {
         this.paymentDetails = paymentDetails;
     }
 
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }

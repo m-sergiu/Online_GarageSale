@@ -6,7 +6,6 @@ create table asset
     quantity integer,
     purchaseOrder_id bigint,
     primary key(id),
-    foreign key(purchaseOrder_id) references purchaseOrder(id)
 );
 create table issue
 (

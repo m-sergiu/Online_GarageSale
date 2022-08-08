@@ -6,6 +6,8 @@ import com.garagesale.domain.PurchaseOrder;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 
+import java.time.LocalDateTime;
+
 public class OrderDTOMapping {
     private OrderDTOMapping() {
     }
@@ -15,6 +17,7 @@ public class OrderDTOMapping {
         purchaseOrder.setCustomerName(orderDTO.getCustomerName());
         purchaseOrder.setCustomerEmail(orderDTO.getCustomerEmail());
         purchaseOrder.setCard(dtoToCreditCard(orderDTO, purchaseOrder));
+        purchaseOrder.setDateTime(LocalDateTime.now());
         return purchaseOrder;
     }
 
@@ -33,6 +36,7 @@ public class OrderDTOMapping {
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
         purchaseReceipt.setCustomerName(orderDTO.getCustomerName());
         purchaseReceipt.setCustomerEmail(orderDTO.getCustomerEmail());
+        purchaseReceipt.setDateTime(LocalDateTime.now());
         return purchaseReceipt;
     }
 }
