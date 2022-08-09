@@ -1,6 +1,8 @@
 package com.garagesale.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @JsonIgnore
     @OneToOne
     private PurchaseOrder purchaseOrder;
     private String cardNumber;
@@ -35,13 +37,6 @@ public class Card {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
 
     public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrder = purchaseOrder;

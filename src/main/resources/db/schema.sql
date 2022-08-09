@@ -1,4 +1,4 @@
-create table asset
+create table if not exists asset
 (
 	id bigint not null auto_increment,
     category varchar(255),
@@ -6,15 +6,19 @@ create table asset
     quantity integer,
     purchaseOrder_id bigint,
     primary key(id),
+    foreign key(purchaseOrder_id) references purchaseOrder(id)
 );
-create table issue
+
+create table if not exists issue
 (
 	id bigint not null auto_increment,
     description varchar(255),
     asset_id bigint,
-    primary key(id)
+    primary key(id),
+    foreign key(asset_id) references asset(id)
 );
-create table card
+
+create table if not exists card
 (
 	id bigint not null auto_increment,
     cardNumber varchar(255),
@@ -23,25 +27,21 @@ create table card
     year integer,
     month integer,
     balance decimal(10,2),
-    card_type varchar(255);
+    card_type varchar(255),
     purchaseOrder_id bigint,
-    primary key(id)
+    primary key(id),
+    foreign key(purchaseOrder_id) references purchaseOrder(id)
 );
-create table purchaseOrder
+
+create table if not exists purchaseOrder
 (
 	id bigint not null auto_increment,
     customerName varchar(255),
     customerEmail varchar(255),
     card_id bigint,
     purchaseBalance decimal(10,2),
-    primary key(id)
+    dateTime dateTime,
+    primary key(id),
+    foreign key(card_id) references card(id)
 );
 
-alter table asset
-	add constraint FK_purchaseOrder_id foreign key(purchaseOrder_id) references purchaseOrder(id);
-alter table purchaseOrder
-	add constraint FK_card_id foreign key(card_id) references card(id);
-alter table card
-	add constraint FK_purchaseOrder_card_id foreign key(purchaseOrder_id) references purchaseOrder(id);
-alter table issue
-	add constraint FK_asset_id foreign key(asset_id) references asset(id);

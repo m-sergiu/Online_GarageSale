@@ -1,5 +1,7 @@
 package com.garagesale.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +15,8 @@ public class PurchaseOrder {
     private String customerEmail;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchaseOrder")
     private List<Asset> assets;
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Card card;
     private double purchaseBalance = 0;
     @Column(columnDefinition = "dateTime")

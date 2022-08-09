@@ -36,15 +36,6 @@ public class Asset {
         this.category = category;
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
     public double getPrice() {
         return this.price;
     }
@@ -67,5 +58,13 @@ public class Asset {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
     }
 }

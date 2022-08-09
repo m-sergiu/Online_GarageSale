@@ -14,6 +14,7 @@ import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,23 +51,30 @@ public class OrderServiceImpl implements OrderService {
                 for (Asset listAsset : assetList) {
                     if (asset.getCategory() == listAsset.getCategory())
                         throw new ProductAlreadyInCartException("You already have 1 item of type: " + asset.getCategory() + " in your cart.");
-                } purchaseOrder.setPurchaseBalance(purchaseOrder.getPurchaseBalance() + asset.getPrice());
+                }
+                purchaseOrder.setPurchaseBalance(purchaseOrder.getPurchaseBalance() + asset.getPrice());
                 assetList.add(asset);
             }
-        } if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
+        }
+        if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance())
+            throw new CardNotAvailableException("Insufficient balance");
         purchaseOrder.setAssets(assetList);
         orderRepository.save(purchaseOrder);
-        for(Asset asset: purchaseOrder.getAssets()){
+
+        for (Asset asset : purchaseOrder.getAssets()) {
             asset.setQuantity(asset.getQuantity() - 1);
+            asset.setPurchaseOrder(purchaseOrder);
             assetRepository.save(asset);
         }
 
         PurchaseReceipt purchaseReceipt = new PurchaseReceipt();
         purchaseReceipt.setCustomerName(purchaseOrder.getCustomerName());
+        purchaseReceipt.setCustomerEmail(purchaseOrder.getCustomerEmail());
         purchaseReceipt.setCard(purchaseOrder.getCard());
         purchaseReceipt.setAssets(purchaseOrder.getAssets());
         purchaseReceipt.setTotalAmount(purchaseOrder.getPurchaseBalance());
         purchaseReceipt.setPaymentDetails("payed by Creditcard: " + purchaseReceipt.getCard().getCardNumber());
+        purchaseReceipt.setDateTime(LocalDateTime.now());
         return purchaseReceipt;
 
     }
