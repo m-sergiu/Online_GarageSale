@@ -19,10 +19,10 @@ public class Asset {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asset", fetch = FetchType.LAZY)
     private List<Issue> issues = new ArrayList<>();
     private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaseOrder_id", referencedColumnName = "id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "asset_purchaseOrder", joinColumns = @JoinColumn(name = "asset_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "purchaseOrder_id", referencedColumnName = "id"))
     @JsonIgnore
-    private PurchaseOrder purchaseOrder;
+    private List<PurchaseOrder> purchaseOrder = new ArrayList<>();
 
 
     public Asset() {
@@ -60,11 +60,11 @@ public class Asset {
         this.quantity = quantity;
     }
 
-    public PurchaseOrder getPurchaseOrder() {
+    public List<PurchaseOrder> getPurchaseOrder() {
         return purchaseOrder;
     }
 
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+    public void setPurchaseOrder(List<PurchaseOrder> purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
 }

@@ -4,9 +4,7 @@ create table if not exists asset
     category varchar(255),
     price decimal(10,2),
     quantity integer,
-    purchaseOrder_id bigint,
-    primary key(id),
-    foreign key(purchaseOrder_id) references purchaseOrder(id)
+    primary key(id)
 );
 
 create table if not exists issue
@@ -29,8 +27,7 @@ create table if not exists card
     balance decimal(10,2),
     card_type varchar(255),
     purchaseOrder_id bigint,
-    primary key(id),
-    foreign key(purchaseOrder_id) references purchaseOrder(id)
+    primary key(id)
 );
 
 create table if not exists purchaseOrder
@@ -43,5 +40,12 @@ create table if not exists purchaseOrder
     dateTime dateTime,
     primary key(id),
     foreign key(card_id) references card(id)
+);
+
+create table if not exists asset_purchaseOrder
+(
+    asset_id bigint not null,
+    purchaseOrder_id bigint not null,
+    primary key(asset_id, purchaseOrder_id)
 );
 

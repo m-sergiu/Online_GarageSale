@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -56,14 +58,15 @@ public class OrderServiceImpl implements OrderService {
                 assetList.add(asset);
             }
         }
-        if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance())
-            throw new CardNotAvailableException("Insufficient balance");
+        if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
         purchaseOrder.setAssets(assetList);
         orderRepository.save(purchaseOrder);
+        List<PurchaseOrder> orderList = new ArrayList<>();
+        orderList.add(purchaseOrder);
 
         for (Asset asset : purchaseOrder.getAssets()) {
             asset.setQuantity(asset.getQuantity() - 1);
-            asset.setPurchaseOrder(purchaseOrder);
+            asset.setPurchaseOrder(orderList);
             assetRepository.save(asset);
         }
 
