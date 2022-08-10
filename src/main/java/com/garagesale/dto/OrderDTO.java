@@ -1,6 +1,6 @@
 package com.garagesale.dto;
 
-import com.garagesale.domain.Card;
+import com.garagesale.domain.Cards.Card;
 
 public class OrderDTO {
     private Card card;
@@ -30,10 +30,6 @@ public class OrderDTO {
 
     public int[] getProductID() {
         return productID;
-    }
-
-    public void setProductID(int[] productID) {
-        this.productID = productID;
     }
 
     public String getCustomerName() {

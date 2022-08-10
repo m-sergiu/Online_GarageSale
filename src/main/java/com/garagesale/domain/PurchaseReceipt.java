@@ -1,28 +1,20 @@
 package com.garagesale.domain;
 
+import com.garagesale.enums.Category;
+
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashMap;
 
 public class PurchaseReceipt {
     private String customerName;
     private String customerEmail;
-    private Card card;
-    private List<Asset> assets;
+    private HashMap<Category, Double> assets;
     private double totalAmount;
     private String paymentDetails;
     private LocalDateTime dateTime;
 
 
     public PurchaseReceipt() {
-    }
-
-
-    public Card getCard() {
-        return card;
-    }
-
-    public void setCard(Card card) {
-        this.card = card;
     }
 
     public String getCustomerName() {
@@ -42,11 +34,11 @@ public class PurchaseReceipt {
     }
 
 
-    public List<Asset> getAssets() {
+    public HashMap<Category, Double> getAssets() {
         return assets;
     }
 
-    public void setAssets(List<Asset> assets) {
+    public void setAssets(HashMap<Category, Double> assets) {
         this.assets = assets;
     }
 
