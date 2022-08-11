@@ -1,8 +1,10 @@
 package com.garagesale.mapping;
 
-import com.garagesale.Factory.CardFactory;
-import com.garagesale.domain.Cards.Card;
-import com.garagesale.domain.PurchaseOrder;
+import com.garagesale.factory.AbstractOrderFactory;
+import com.garagesale.factory.ProviderOrderFactory;
+import com.garagesale.domain.Card;
+import com.garagesale.domain.CreditCard;
+import com.garagesale.domain.Orders.PurchaseOrder;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 
@@ -13,15 +15,13 @@ public class OrderDTOMapping {
     }
 
     public static PurchaseOrder dtoToOrder(OrderDTO orderDTO) {
-        PurchaseOrder.Builder builder = new PurchaseOrder.Builder();
-        builder.customerName(orderDTO.getCustomerName()).customerEmail(orderDTO.getCustomerEmail()).card(dtoToCreditCard(orderDTO)).dateTime(LocalDateTime.now());
-        PurchaseOrder purchaseOrder = builder.build();
-        return purchaseOrder;
+        AbstractOrderFactory abstractFactory = ProviderOrderFactory.getOrderFactory(orderDTO.getOrderType());
+        PurchaseOrder order = abstractFactory.createOrder(orderDTO.getOrderType(),orderDTO);
+        return order;
     }
 
     public static Card dtoToCreditCard(OrderDTO orderDTO) {
-        CardFactory factory = CardFactory.getCardFactory(orderDTO.getCard().getCardNumber().charAt(0));
-        Card card = factory.getCard(orderDTO.getCard().getCardType());
+        Card card = new CreditCard();
         card.setCardHolderName(orderDTO.getCard().getCardHolderName());
         card.setCardNumber(orderDTO.getCard().getCardNumber());
         card.setCiv(orderDTO.getCard().getCiv());

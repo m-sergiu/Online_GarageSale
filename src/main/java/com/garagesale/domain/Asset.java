@@ -1,6 +1,7 @@
 package com.garagesale.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.garagesale.domain.Orders.PurchaseOrder;
 import com.garagesale.enums.Category;
 
 import javax.persistence.*;

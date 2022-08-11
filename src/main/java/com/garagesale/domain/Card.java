@@ -1,23 +1,21 @@
-package com.garagesale.domain.Cards;
+package com.garagesale.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.garagesale.domain.PurchaseOrder;
-import com.garagesale.enums.CardType;
+import com.garagesale.domain.Orders.PurchaseOrder;
 
 import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "card_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Card {
+public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonIgnore
     @OneToOne
     private PurchaseOrder purchaseOrder;
-    private CardType cardType;
     private String cardNumber;
     private String cardHolderName;
     private String civ;
@@ -82,11 +80,11 @@ public abstract class Card {
         this.cardHolderName = cardHolderName;
     }
 
-    public CardType getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
-    }
+//    public CardType getCardType() {
+//        return cardType;
+//    }
+//
+//    public void setCardType(CardType cardType) {
+//        this.cardType = cardType;
+//    }
 }

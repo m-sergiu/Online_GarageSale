@@ -38,6 +38,8 @@ create table if not exists purchaseOrder
     card_id bigint,
     purchaseBalance decimal(10,2),
     dateTime dateTime,
+    voucherBalance decimal(10,2),
+    discountBalance integer,
     primary key(id),
     foreign key(card_id) references card(id)
 );

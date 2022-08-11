@@ -1,6 +1,6 @@
 package com.garagesale.service;
 
-import com.garagesale.domain.Cards.Card;
+import com.garagesale.domain.Card;
 import org.springframework.stereotype.Service;
 
 @Service

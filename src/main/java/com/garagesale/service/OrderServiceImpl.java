@@ -1,10 +1,11 @@
 package com.garagesale.service;
 
 import com.garagesale.domain.Asset;
-import com.garagesale.domain.PurchaseOrder;
+import com.garagesale.domain.Orders.PurchaseOrder;
 import com.garagesale.domain.PurchaseReceipt;
 import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
+import com.garagesale.enums.OrderType;
 import com.garagesale.exceptions.CardNotAvailableException;
 import com.garagesale.exceptions.OrderDoesNotExistException;
 import com.garagesale.exceptions.ProductAlreadyInCartException;
@@ -45,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         }
         PurchaseOrder purchaseOrder = OrderDTOMapping.dtoToOrder(orderDTO);
         List<Asset> assetList = new ArrayList<>();
-        HashMap<Category,Double> receiptList = new HashMap<>();
+        HashMap<Category, Double> receiptList = new HashMap<>();
         //loop through assets-dtoProductID
         for (int i = 0; i < orderDTO.getProductID().length; i++) {
             Asset asset = assetService.findById((long) orderDTO.getProductID()[i]);
@@ -58,22 +59,34 @@ public class OrderServiceImpl implements OrderService {
                         throw new ProductAlreadyInCartException("You already have 1 item of type: " + asset.getCategory() + " in your cart.");
                 }
                 purchaseOrder.setPurchaseBalance(purchaseOrder.getPurchaseBalance() + asset.getPrice());
-                receiptList.put(asset.getCategory(),asset.getPrice());
+                receiptList.put(asset.getCategory(), asset.getPrice());
                 assetList.add(asset);
             }
         }
-        if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance()) throw new CardNotAvailableException("Insufficient balance");
+        //CHECK IF VOUCHER OR DISCOUNT AND APPLY
+        if(purchaseOrder.getOrderType() == OrderType.DISCOUNT){
+            double newBalance = purchaseOrder.getPurchaseBalance();
+            newBalance = newBalance - ((double)purchaseOrder.getDiscountBalance()/100 * newBalance);
+            purchaseOrder.setPurchaseBalance(newBalance);
+        }
+        else if(purchaseOrder.getOrderType() == OrderType.VOUCHER){
+            double newBalance = purchaseOrder.getPurchaseBalance() - purchaseOrder.getVoucherBalance();
+            purchaseOrder.setPurchaseBalance(newBalance);
+        }
+        if (purchaseOrder.getPurchaseBalance() > purchaseOrder.getCard().getBalance())
+            throw new CardNotAvailableException("Insufficient balance");
         purchaseOrder.setAssets(assetList);
+        //SAVE CREDIT_ORDER_ID
+        purchaseOrder.getCard().setPurchaseOrder(purchaseOrder);
         orderRepository.save(purchaseOrder);
         List<PurchaseOrder> orderList = new ArrayList<>();
         orderList.add(purchaseOrder);
-
+        //SAVE ASSET_ORDER_ID
         for (Asset asset : purchaseOrder.getAssets()) {
             asset.setQuantity(asset.getQuantity() - 1);
             asset.setPurchaseOrder(orderList);
             assetRepository.save(asset);
         }
-        purchaseOrder.getCard().setPurchaseOrder(purchaseOrder);
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
         purchaseReceipt.setAssets(receiptList);
         purchaseReceipt.setTotalAmount(purchaseOrder.getPurchaseBalance());
