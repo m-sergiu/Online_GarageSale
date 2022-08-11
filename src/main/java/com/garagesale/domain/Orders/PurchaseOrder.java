@@ -34,7 +34,7 @@ public abstract class PurchaseOrder {
 
     public PurchaseOrder() {
     }
-    protected PurchaseOrder(SuperBuilder superBuilder) {
+    public PurchaseOrder(SuperBuilder superBuilder) {
         this.customerName = superBuilder.customerName;
         this.customerEmail = superBuilder.customerEmail;
         this.card = superBuilder.card;
@@ -113,7 +113,6 @@ public abstract class PurchaseOrder {
     public double getPurchaseBalance() {
         return purchaseBalance;
     }
-
     public void setPurchaseBalance(double purchaseBalance) {
         this.purchaseBalance = purchaseBalance;
     }
