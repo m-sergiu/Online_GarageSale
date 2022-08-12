@@ -24,7 +24,7 @@ public class ProviderOrderFactory {
         }
         return instance;
     }
-    public static AbstractOrderFactory getOrderFactory(OrderType orderType){
+    public  AbstractOrderFactory getOrderFactory(OrderType orderType){
         if(orderType == OrderType.DISCOUNT || orderType==OrderType.VOUCHER){
             return new LoyalityOrderFactory();
         }

@@ -15,7 +15,7 @@ public class OrderDTOMapping {
     }
 
     public static PurchaseOrder dtoToOrder(OrderDTO orderDTO) {
-        AbstractOrderFactory abstractFactory = ProviderOrderFactory.getOrderFactory(orderDTO.getOrderType());
+        AbstractOrderFactory abstractFactory = ProviderOrderFactory.getInstance().getOrderFactory(orderDTO.getOrderType());
         return (PurchaseOrder) abstractFactory.create(orderDTO);
     }
 
