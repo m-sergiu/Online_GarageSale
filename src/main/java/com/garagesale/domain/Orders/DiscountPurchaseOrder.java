@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue(value = "DISCOUNT_ORDER")
 public class DiscountPurchaseOrder extends PurchaseOrder {
-
     public DiscountPurchaseOrder() {
     }
 

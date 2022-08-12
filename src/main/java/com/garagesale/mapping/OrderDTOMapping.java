@@ -16,8 +16,7 @@ public class OrderDTOMapping {
 
     public static PurchaseOrder dtoToOrder(OrderDTO orderDTO) {
         AbstractOrderFactory abstractFactory = ProviderOrderFactory.getOrderFactory(orderDTO.getOrderType());
-        PurchaseOrder order = abstractFactory.createOrder(orderDTO.getOrderType(),orderDTO);
-        return order;
+        return (PurchaseOrder) abstractFactory.create(orderDTO);
     }
 
     public static Card dtoToCreditCard(OrderDTO orderDTO) {

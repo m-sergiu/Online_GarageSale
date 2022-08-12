@@ -10,33 +10,29 @@ import com.garagesale.mapping.OrderDTOMapping;
 
 import java.time.LocalDateTime;
 
-public class LoyalityOrderFactory implements AbstractOrderFactory {
+public class LoyalityOrderFactory implements AbstractOrderFactory<PurchaseOrder> {
 
     @Override
-    public PurchaseOrder createOrder(OrderType orderType, OrderDTO orderDTO) {
-        if(orderType == OrderType.DISCOUNT) {
+    public PurchaseOrder create(OrderDTO orderDTO) {
+        if(orderDTO.getOrderType() == OrderType.DISCOUNT) {
             DiscountPurchaseOrder.Builder builder = new DiscountPurchaseOrder.Builder();
-            builder.customerName(orderDTO.getCustomerName())
+            return   builder.customerName(orderDTO.getCustomerName())
                     .customerEmail(orderDTO.getCustomerEmail())
                     .card(OrderDTOMapping.dtoToCreditCard(orderDTO))
                     .discountBalance(orderDTO.getDiscountBalance())
                     .dateTime(LocalDateTime.now())
                     .orderType(orderDTO.getOrderType())
                     .build();
-            DiscountPurchaseOrder order = builder.build();
-            return order;
         }
         else {
             VoucherPurchaseOrder.Builder builder = new VoucherPurchaseOrder.Builder();
-            builder.customerName(orderDTO.getCustomerName())
+          return  builder.customerName(orderDTO.getCustomerName())
                     .customerEmail(orderDTO.getCustomerEmail())
                     .card(OrderDTOMapping.dtoToCreditCard(orderDTO))
                     .voucherBalance(orderDTO.getVoucherBalance())
                     .dateTime(LocalDateTime.now())
                     .orderType(orderDTO.getOrderType())
                     .build();
-            VoucherPurchaseOrder order = builder.build();
-            return order;
         }
     }
 }

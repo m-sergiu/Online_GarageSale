@@ -14,8 +14,6 @@ import com.garagesale.mapping.OrderDTOMapping;
 import com.garagesale.repository.AssetRepository;
 import com.garagesale.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final AssetRepository assetRepository;
