@@ -22,12 +22,12 @@ public class AssetController {
 
     @GetMapping
     public List<Asset> findAll() {
-        return assetService.findAll();
+        return assetService.findAllAvailable();
     }
 
-    @GetMapping("/getAllAvailable")
+    @GetMapping("/getAll")
     public List<Asset> findAllAvailable() {
-        return assetService.findAllAvailable();
+       return assetService.findAll();
     }
 
     @PostMapping

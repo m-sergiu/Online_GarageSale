@@ -14,6 +14,13 @@ public class AssetDTO {
     public AssetDTO() {
     }
 
+    public AssetDTO(Category category, double price, List<Issue> issues, int quantity) {
+        this.category = category;
+        this.price = price;
+        this.issues = issues;
+        this.quantity = quantity;
+    }
+
     public Category getCategory() {
         return category;
     }

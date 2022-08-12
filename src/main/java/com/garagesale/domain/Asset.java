@@ -29,6 +29,18 @@ public class Asset {
     public Asset() {
     }
 
+    public Asset(Long id, Category category, double price, List<Issue> issues, int quantity) {
+        this.id = id;
+        this.category = category;
+        this.price = price;
+        this.issues = issues;
+        this.quantity = quantity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public Category getCategory() {
         return this.category;
     }

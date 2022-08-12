@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, OrderDoesNotExistException {
-
+        if(assetService.findAllAvailable().size() < 1) throw new ProductDoesntExistException("No products available to buy");
         if (!validatorService.validateCardDetails(orderDTO.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
         }

@@ -8,7 +8,6 @@ import com.garagesale.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +28,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public List<Asset> findAllAvailable() {
-        List<Asset> list = new ArrayList<>(assetRepository.findAll());
-        for (Asset asset : assetRepository.findAll()) {
-            if (asset.getQuantity() < 1) {
-                list.remove(asset);
-            }
-        }
-        return list;
+        return assetRepository.findByQuantityGreaterThan(0);
     }
 
     @Override

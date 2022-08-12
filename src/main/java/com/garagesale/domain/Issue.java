@@ -19,6 +19,9 @@ public class Issue {
     public Issue() {
     }
 
+    public Issue(String description) {
+        this.description = description;
+    }
 
     public Asset getAsset() {
         return asset;
