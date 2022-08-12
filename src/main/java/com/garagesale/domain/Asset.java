@@ -80,4 +80,5 @@ public class Asset {
     public void setPurchaseOrder(List<PurchaseOrder> purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
+
 }

@@ -41,7 +41,7 @@ public class AssetServiceImpl implements AssetService {
     public Asset findById(Long id) {
         Optional<Asset> optionalAsset = assetRepository.findById(id);
         if (optionalAsset.isEmpty()) {
-            throw new ProductDoesntExistException("product id is invalid: " + id);
+            throw new ProductDoesntExistException("Product id is invalid. " + id);
         }
         return optionalAsset.get();
     }

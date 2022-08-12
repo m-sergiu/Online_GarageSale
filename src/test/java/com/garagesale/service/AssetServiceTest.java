@@ -4,6 +4,7 @@ import com.garagesale.domain.Asset;
 import com.garagesale.domain.Issue;
 import com.garagesale.dto.AssetDTO;
 import com.garagesale.enums.Category;
+import com.garagesale.exceptions.ProductDoesntExistException;
 import com.garagesale.mapping.AssetDTOMapping;
 import com.garagesale.repository.AssetRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,27 +14,34 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class AssetServiceTest {
 
     @Mock
     private AssetRepository assetRepository;
     private AssetServiceImpl underTest;
 
-    Asset asset_1 = new Asset(1L,Category.LAPTOP,100,List.of(new Issue("none")),1);
-    Asset asset_2 = new Asset(2L,Category.MOUSE,10,List.of(new Issue("none")),1);
-    List<Asset> list = List.of(asset_1, asset_2);
+
     @BeforeEach
     void setUp(){
         underTest = new AssetServiceImpl(assetRepository);
+
+        Asset asset_1 = new Asset(1L,Category.LAPTOP,100,List.of(new Issue("none")),1);
+        Asset asset_2 = new Asset(3L,Category.MOUSE,10,List.of(new Issue("none")),1);
+        List<Asset> list = List.of(asset_1, asset_2);
+
+        Mockito.when(assetRepository.findById(asset_1.getId())).thenReturn(java.util.Optional.of(asset_1));
     }
     @Test
     void canGetAllAssets(){
@@ -58,13 +66,23 @@ class AssetServiceTest {
         verify(assetRepository).save(assetArgumentCaptor.capture());
 
         Asset capturedAsset = assetArgumentCaptor.getValue();
-        assertThat(capturedAsset).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO));
+
+        assertThat(capturedAsset.getId()).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO).getId());
     }
 
     @Test
     void canFindById(){
-        Mockito.when(assetRepository.findById(asset_1.getId())).thenReturn(java.util.Optional.of(asset_1));
-        assertEquals(asset_1,assetRepository.findById(1L).get());
+        Long id = 1L;
+        Asset asset = underTest.findById(id);
+        assertEquals(id,asset.getId());
+    }
+    @Test
+    void canFindById_throwErrorWhenIdEmpty(){
+        Long id = 2L;
+        assertThatThrownBy(() -> underTest.findById(id))
+                .isInstanceOf(ProductDoesntExistException.class)
+                .hasMessageContaining("Product id is invalid. " + id);
+
     }
 
 }
