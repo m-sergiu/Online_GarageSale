@@ -1,5 +1,6 @@
 package com.garagesale.factory;
 
+import com.garagesale.domain.Orders.PurchaseOrder;
 import com.garagesale.enums.OrderType;
 
 public class ProviderOrderFactory {
@@ -9,7 +10,7 @@ public class ProviderOrderFactory {
     //SINGLETON pattern class
     private ProviderOrderFactory(){
         if(instance != null){
-            throw new RuntimeException("Already exists an instane. Use getInstance() method");
+            throw new RuntimeException("Already exists an instance. Use getInstance() method");
         }
     }
 
@@ -24,7 +25,7 @@ public class ProviderOrderFactory {
         }
         return instance;
     }
-    public  AbstractOrderFactory getOrderFactory(OrderType orderType){
+    public  AbstractOrderFactory<PurchaseOrder> getOrderFactory(OrderType orderType){
         if(orderType == OrderType.DISCOUNT || orderType==OrderType.VOUCHER){
             return new LoyalityOrderFactory();
         }

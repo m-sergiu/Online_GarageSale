@@ -13,7 +13,7 @@ public class NormalOrderFactory implements AbstractOrderFactory <PurchaseOrder> 
         NormalPurchaseOrder.Builder builder = new NormalPurchaseOrder.Builder();
         return builder.customerName(orderDTO.getCustomerName())
                 .customerEmail(orderDTO.getCustomerEmail())
-                .card(OrderDTOMapping.dtoToCreditCard(orderDTO))
+                .card(OrderDTOMapping.dtoToCard(orderDTO))
                 .discountBalance(orderDTO.getDiscountBalance())
                 .dateTime(LocalDateTime.now())
                 .orderType(orderDTO.getOrderType())

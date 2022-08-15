@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GarageSaleApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void main(){
+		GarageSaleApplication.main(new String[]{});
 	}
 
 }

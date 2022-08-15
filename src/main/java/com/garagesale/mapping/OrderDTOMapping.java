@@ -1,5 +1,6 @@
 package com.garagesale.mapping;
 
+import com.garagesale.domain.DebitCard;
 import com.garagesale.factory.AbstractOrderFactory;
 import com.garagesale.factory.ProviderOrderFactory;
 import com.garagesale.domain.Card;
@@ -15,12 +16,17 @@ public class OrderDTOMapping {
     }
 
     public static PurchaseOrder dtoToOrder(OrderDTO orderDTO) {
-        AbstractOrderFactory abstractFactory = ProviderOrderFactory.getInstance().getOrderFactory(orderDTO.getOrderType());
-        return (PurchaseOrder) abstractFactory.create(orderDTO);
+        AbstractOrderFactory<PurchaseOrder> abstractFactory = ProviderOrderFactory.getInstance().getOrderFactory(orderDTO.getOrderType());
+        return abstractFactory.create(orderDTO);
     }
 
-    public static Card dtoToCreditCard(OrderDTO orderDTO) {
-        Card card = new CreditCard();
+    public static Card dtoToCard(OrderDTO orderDTO) {
+        String c = orderDTO.getCard().getCardNumber().substring(0,1);
+        Card card;
+        if(c.equals("4")) {
+            card = new CreditCard();
+        }
+        else card = new DebitCard();
         card.setCardHolderName(orderDTO.getCard().getCardHolderName());
         card.setCardNumber(orderDTO.getCard().getCardNumber());
         card.setCiv(orderDTO.getCard().getCiv());
@@ -34,6 +40,7 @@ public class OrderDTOMapping {
         purchaseReceipt.setCustomerName(orderDTO.getCustomerName());
         purchaseReceipt.setCustomerEmail(orderDTO.getCustomerEmail());
         purchaseReceipt.setDateTime(LocalDateTime.now());
+        purchaseReceipt.setPaymentDetails("Payed by card: " + orderDTO.getCard().getCardNumber());
         return purchaseReceipt;
     }
 

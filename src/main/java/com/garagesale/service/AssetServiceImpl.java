@@ -32,16 +32,17 @@ public class AssetServiceImpl implements AssetService {
     }
 
     @Override
-    public void createAsset(AssetDTO assetDTO) {
+    public Asset createAsset(AssetDTO assetDTO) {
         Asset asset = AssetDTOMapping.dtoToAsset(assetDTO);
         assetRepository.save(asset);
+        return asset;
     }
 
     @Override
     public Asset findById(Long id) {
         Optional<Asset> optionalAsset = assetRepository.findById(id);
         if (optionalAsset.isEmpty()) {
-            throw new ProductDoesntExistException("Product id is invalid. " + id);
+            throw new ProductDoesntExistException("Product id is invalid: -> " + id);
         }
         return optionalAsset.get();
     }

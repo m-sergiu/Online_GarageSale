@@ -18,7 +18,7 @@ public class LoyalityOrderFactory implements AbstractOrderFactory<PurchaseOrder>
             DiscountPurchaseOrder.Builder builder = new DiscountPurchaseOrder.Builder();
             return   builder.customerName(orderDTO.getCustomerName())
                     .customerEmail(orderDTO.getCustomerEmail())
-                    .card(OrderDTOMapping.dtoToCreditCard(orderDTO))
+                    .card(OrderDTOMapping.dtoToCard(orderDTO))
                     .discountBalance(orderDTO.getDiscountBalance())
                     .dateTime(LocalDateTime.now())
                     .orderType(orderDTO.getOrderType())
@@ -28,7 +28,7 @@ public class LoyalityOrderFactory implements AbstractOrderFactory<PurchaseOrder>
             VoucherPurchaseOrder.Builder builder = new VoucherPurchaseOrder.Builder();
           return  builder.customerName(orderDTO.getCustomerName())
                     .customerEmail(orderDTO.getCustomerEmail())
-                    .card(OrderDTOMapping.dtoToCreditCard(orderDTO))
+                    .card(OrderDTOMapping.dtoToCard(orderDTO))
                     .voucherBalance(orderDTO.getVoucherBalance())
                     .dateTime(LocalDateTime.now())
                     .orderType(orderDTO.getOrderType())

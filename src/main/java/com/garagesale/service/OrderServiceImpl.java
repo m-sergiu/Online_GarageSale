@@ -7,7 +7,6 @@ import com.garagesale.dto.OrderDTO;
 import com.garagesale.enums.Category;
 import com.garagesale.enums.OrderType;
 import com.garagesale.exceptions.CardNotAvailableException;
-import com.garagesale.exceptions.OrderDoesNotExistException;
 import com.garagesale.exceptions.ProductAlreadyInCartException;
 import com.garagesale.exceptions.ProductDoesntExistException;
 import com.garagesale.mapping.OrderDTOMapping;
@@ -36,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException, OrderDoesNotExistException {
+    public PurchaseReceipt finalizeOrder(OrderDTO orderDTO) throws CardNotAvailableException, ProductDoesntExistException {
         if(assetService.findAllAvailable().size() < 1) throw new ProductDoesntExistException("No products available to buy");
         if (!validatorService.validateCardDetails(orderDTO.getCard())) {
             throw new CardNotAvailableException("Card details are not good or expired");
@@ -87,9 +86,7 @@ public class OrderServiceImpl implements OrderService {
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
         purchaseReceipt.setAssets(receiptList);
         purchaseReceipt.setTotalAmount(purchaseOrder.getPurchaseBalance());
-        purchaseReceipt.setPaymentDetails("Payed by card: " + purchaseOrder.getCard().getCardNumber());
         return purchaseReceipt;
-
     }
 
 }

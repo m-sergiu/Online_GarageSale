@@ -9,13 +9,12 @@ import com.garagesale.mapping.AssetDTOMapping;
 import com.garagesale.repository.AssetRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,36 +29,35 @@ class AssetServiceTest {
 
     @Mock
     private AssetRepository assetRepository;
-    private AssetServiceImpl underTest;
+    private AssetServiceImpl assetService;
 
+    Asset asset_1 = new Asset(1L,Category.LAPTOP,100,List.of(new Issue("none")),1);
+    Asset asset_2 = new Asset(3L,Category.MOUSE,10,List.of(new Issue("none")),1);
+    List<Asset> assetList = new ArrayList<>();
 
     @BeforeEach
     void setUp(){
-        underTest = new AssetServiceImpl(assetRepository);
-
-        Asset asset_1 = new Asset(1L,Category.LAPTOP,100,List.of(new Issue("none")),1);
-        Asset asset_2 = new Asset(3L,Category.MOUSE,10,List.of(new Issue("none")),1);
-        List<Asset> list = List.of(asset_1, asset_2);
-
-        Mockito.when(assetRepository.findById(asset_1.getId())).thenReturn(java.util.Optional.of(asset_1));
+        assetService = new AssetServiceImpl(assetRepository);
+        assetList.add(asset_1);
+        assetList.add(asset_2);
     }
     @Test
-    void canGetAllAssets(){
-        underTest.findAll();
-        verify(assetRepository).findAll();
+    void testGetAllAssets(){
+        Mockito.when(assetRepository.findAll()).thenReturn(assetList);
+        assertEquals(assetList,assetService.findAll());
     }
 
     @Test
-    void canGetAllAssetsAvailable(){
-        underTest.findAllAvailable();
-        verify(assetRepository).findByQuantityGreaterThan(0);
+    void testGetAllAssetsAvailable(){
+        Mockito.when(assetRepository.findByQuantityGreaterThan(0)).thenReturn(assetList);
+        assertEquals(assetList,assetService.findAllAvailable());
     }
 
     @Test
-    void canCreateAsset(){
+    void testCreateAsset(){
         AssetDTO assetDTO = new AssetDTO(Category.LAPTOP,10,List.of(new Issue("none")),1);
 
-        underTest.createAsset(assetDTO);
+        assetService.createAsset(assetDTO);
 
         ArgumentCaptor<Asset> assetArgumentCaptor = ArgumentCaptor.forClass(Asset.class);
 
@@ -68,21 +66,33 @@ class AssetServiceTest {
         Asset capturedAsset = assetArgumentCaptor.getValue();
 
         assertThat(capturedAsset.getId()).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO).getId());
+
+        assertThat(capturedAsset.getCategory()).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO).getCategory());
+
+        assertThat(capturedAsset.getPrice()).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO).getPrice());
+
+        assertThat(capturedAsset.getQuantity()).isEqualTo(AssetDTOMapping.dtoToAsset(assetDTO).getQuantity());
+
+        Asset asset = AssetDTOMapping.dtoToAsset(assetDTO);
+        assertEquals(asset.getId(), assetService.createAsset(assetDTO).getId());
+        assertEquals(asset.getCategory(), assetService.createAsset(assetDTO).getCategory());
+        assertEquals(asset.getQuantity(), assetService.createAsset(assetDTO).getQuantity());
+        assertEquals(asset.getPrice(), assetService.createAsset(assetDTO).getPrice());
     }
 
     @Test
-    void canFindById(){
+    void testFindById(){
         Long id = 1L;
-        Asset asset = underTest.findById(id);
-        assertEquals(id,asset.getId());
+        Mockito.when(assetRepository.findById(id)).thenReturn(java.util.Optional.of(asset_1));
+        assertEquals(asset_1,assetService.findById(id));
     }
     @Test
-    void canFindById_throwErrorWhenIdEmpty(){
-        Long id = 2L;
-        assertThatThrownBy(() -> underTest.findById(id))
+    void testFindById_throwErrorWhenIdEmpty(){
+        Long id = 1L;
+        Mockito.when(assetRepository.findById(id)).thenReturn(Optional.empty());
+         assertThatThrownBy(() -> assetService.findById(id))
                 .isInstanceOf(ProductDoesntExistException.class)
-                .hasMessageContaining("Product id is invalid. " + id);
-
+                .hasMessageContaining("Product id is invalid: -> " + id);
     }
 
 }

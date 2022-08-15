@@ -17,6 +17,14 @@ public class PurchaseReceipt {
     public PurchaseReceipt() {
     }
 
+    public PurchaseReceipt(String customerName, String customerEmail, double totalAmount, String paymentDetails, LocalDateTime dateTime) {
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+        this.totalAmount = totalAmount;
+        this.paymentDetails = paymentDetails;
+        this.dateTime = dateTime;
+    }
+
     public String getCustomerName() {
         return customerName;
     }

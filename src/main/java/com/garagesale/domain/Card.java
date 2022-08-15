@@ -23,10 +23,20 @@ public class Card {
     private int month;
     private double balance;
 
+    public Card() {
+    }
+
+    public Card(String cardNumber, String cardHolderName, String civ, int year, int month) {
+        this.cardNumber = cardNumber;
+        this.cardHolderName = cardHolderName;
+        this.civ = civ;
+        this.year = year;
+        this.month = month;
+    }
+
     public Long getId() {
         return id;
     }
-
 
     public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
@@ -80,11 +90,4 @@ public class Card {
         this.cardHolderName = cardHolderName;
     }
 
-//    public CardType getCardType() {
-//        return cardType;
-//    }
-//
-//    public void setCardType(CardType cardType) {
-//        this.cardType = cardType;
-//    }
 }

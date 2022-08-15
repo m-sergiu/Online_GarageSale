@@ -15,6 +15,16 @@ public class OrderDTO {
     public OrderDTO(){
     }
 
+    public OrderDTO(Card card, OrderType orderType, double voucherBalance, int discountBalance, int[] productID, String customerName, String customerEmail) {
+        this.card = card;
+        this.orderType = orderType;
+        this.voucherBalance = voucherBalance;
+        this.discountBalance = discountBalance;
+        this.productID = productID;
+        this.customerName = customerName;
+        this.customerEmail = customerEmail;
+    }
+
     public void setOrderType(OrderType orderType) {
         this.orderType = orderType;
     }

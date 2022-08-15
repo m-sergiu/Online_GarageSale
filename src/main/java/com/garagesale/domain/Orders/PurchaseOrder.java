@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -132,4 +133,27 @@ public abstract class PurchaseOrder {
     public int getDiscountBalance() {
         return discountBalance;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        PurchaseOrder po = (PurchaseOrder) obj;
+        return Objects.equals(customerName, po.customerName) || (customerName != null && customerName.equals(po.getCustomerName()))
+                && (Objects.equals(customerEmail, po.customerEmail) || (customerEmail != null && customerEmail .equals(po.getCustomerEmail())))
+                && (card == po.card || (card != null && card.equals(po.getCard())))
+                && (orderType == po.orderType || (orderType != null && orderType .equals(po.getOrderType())))
+                && (discountBalance == po.discountBalance)
+                && (voucherBalance == po.voucherBalance);
+    }
+
+
 }
