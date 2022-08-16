@@ -40,9 +40,9 @@ public class OrderServiceTest {
     @Mock
     private ValidatorService validatorService;
 
-    Asset asset_1 = new Asset(1L, Category.LAPTOP,100, List.of(new Issue("none")),10);
-    Asset asset_2 = new Asset(2L, Category.LAPTOP,100, List.of(new Issue("none")),0);
-    Asset asset_3 = new Asset(3L,Category.LAPTOP,10,List.of(new Issue("none")),1);
+    Asset asset_1 = new Asset(1L, Category.LAPTOP,100, List.of(new Issue("issue1")),10);
+    Asset asset_2 = new Asset(2L, Category.LAPTOP,100, List.of(new Issue("issue2")),0);
+    Asset asset_3 = new Asset(3L,Category.LAPTOP,10,null,1);
     List<Asset> assetList = new ArrayList<>();
 
     @BeforeEach
@@ -63,15 +63,15 @@ public class OrderServiceTest {
 
         //Test order save
         orderService.finalizeOrder(orderDTO);
+        PurchaseOrder purchaseOrder = OrderDTOMapping.dtoToOrder(orderDTO);
         ArgumentCaptor<PurchaseOrder> poArgumentCaptor = ArgumentCaptor.forClass(PurchaseOrder.class);
         verify(orderRepository).save(poArgumentCaptor.capture());
 
         PurchaseOrder capturedPO = poArgumentCaptor.getValue();
-        assertThat(capturedPO).isEqualTo(OrderDTOMapping.dtoToOrder(orderDTO));
+        assertThat(capturedPO).isEqualTo(purchaseOrder);
 
         //Test asset save
         ArgumentCaptor<Asset> assetArgumentCaptor = ArgumentCaptor.forClass(Asset.class);
-        PurchaseOrder purchaseOrder = OrderDTOMapping.dtoToOrder(orderDTO);
         for(Asset asset: purchaseOrder.getAssets()) {
             verify(assetRepository).save(assetArgumentCaptor.capture());
 
@@ -80,10 +80,13 @@ public class OrderServiceTest {
         }
 
         PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
+        purchaseReceipt.setTotalAmount(100);
+        PurchaseReceipt testPurchaseReceipt = orderService.finalizeOrder(orderDTO);
 
-        assertEquals(purchaseReceipt.getCustomerName(), orderService.finalizeOrder(orderDTO).getCustomerName());
-        assertEquals(purchaseReceipt.getCustomerEmail(), orderService.finalizeOrder(orderDTO).getCustomerEmail());
-        assertEquals(purchaseReceipt.getPaymentDetails(), orderService.finalizeOrder(orderDTO).getPaymentDetails());
+        assertEquals(purchaseReceipt.getCustomerName(), testPurchaseReceipt.getCustomerName());
+        assertEquals(purchaseReceipt.getCustomerEmail(), testPurchaseReceipt.getCustomerEmail());
+        assertEquals(purchaseReceipt.getPaymentDetails(), testPurchaseReceipt.getPaymentDetails());
+        assertEquals(purchaseReceipt.getTotalAmount(), testPurchaseReceipt.getTotalAmount());
     }
 
     @Test
@@ -96,12 +99,21 @@ public class OrderServiceTest {
         Mockito.when(assetService.findById(1L)).thenReturn(asset_1);
 
         //Test order save
-        orderService.finalizeOrder(orderDTO);
+        PurchaseReceipt testPurchaseReceipt = orderService.finalizeOrder(orderDTO);
         ArgumentCaptor<PurchaseOrder> poArgumentCaptor = ArgumentCaptor.forClass(PurchaseOrder.class);
         verify(orderRepository).save(poArgumentCaptor.capture());
 
         PurchaseOrder capturedPO = poArgumentCaptor.getValue();
-        assertThat(capturedPO).isEqualTo(OrderDTOMapping.dtoToOrder(orderDTO));
+
+        assertEquals(capturedPO,OrderDTOMapping.dtoToOrder(orderDTO));
+
+        PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
+        purchaseReceipt.setTotalAmount(90);
+
+        assertEquals(purchaseReceipt.getCustomerName(), testPurchaseReceipt.getCustomerName());
+        assertEquals(purchaseReceipt.getCustomerEmail(), testPurchaseReceipt.getCustomerEmail());
+        assertEquals(purchaseReceipt.getPaymentDetails(), testPurchaseReceipt.getPaymentDetails());
+        assertEquals(purchaseReceipt.getTotalAmount(), testPurchaseReceipt.getTotalAmount());
 
     }
 
@@ -115,13 +127,20 @@ public class OrderServiceTest {
         Mockito.when(assetService.findById(1L)).thenReturn(asset_1);
 
         //Test order save
-        orderService.finalizeOrder(orderDTO);
+        PurchaseReceipt testPurchaseReceipt = orderService.finalizeOrder(orderDTO);
         ArgumentCaptor<PurchaseOrder> poArgumentCaptor = ArgumentCaptor.forClass(PurchaseOrder.class);
         verify(orderRepository).save(poArgumentCaptor.capture());
 
         PurchaseOrder capturedPO = poArgumentCaptor.getValue();
-        assertThat(capturedPO).isEqualTo(OrderDTOMapping.dtoToOrder(orderDTO));
+        assertEquals(capturedPO,OrderDTOMapping.dtoToOrder(orderDTO));
 
+        PurchaseReceipt purchaseReceipt = OrderDTOMapping.dtoToPurchaseReceipt(orderDTO);
+        purchaseReceipt.setTotalAmount(50);
+
+        assertEquals(purchaseReceipt.getCustomerName(), testPurchaseReceipt.getCustomerName());
+        assertEquals(purchaseReceipt.getCustomerEmail(), testPurchaseReceipt.getCustomerEmail());
+        assertEquals(purchaseReceipt.getPaymentDetails(), testPurchaseReceipt.getPaymentDetails());
+        assertEquals(purchaseReceipt.getTotalAmount(), testPurchaseReceipt.getTotalAmount());
     }
 
 
@@ -155,7 +174,7 @@ public class OrderServiceTest {
 
         assertThatThrownBy(()-> orderService.finalizeOrder(orderDTO))
                 .isInstanceOf(ProductDoesntExistException.class)
-                .hasMessageContaining("product with ID: " + orderDTO.getProductID()[0] + "  doesnt exist anymore");
+                .hasMessageContaining("product with ID: " + orderDTO.getProductIds()[0] + "  doesnt exist anymore");
 
     }
 

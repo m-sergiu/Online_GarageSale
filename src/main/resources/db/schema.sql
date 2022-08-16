@@ -13,7 +13,7 @@ create table if not exists issue
     description varchar(255),
     asset_id bigint,
     primary key(id),
-    foreign key(asset_id) references asset(id)
+    CONSTRAINT foreign key(asset_id) references asset(id) ON DELETE CASCADE
 );
 
 create table if not exists card
@@ -41,7 +41,7 @@ create table if not exists purchaseOrder
     voucherBalance decimal(10,2),
     discountBalance integer,
     primary key(id),
-    foreign key(card_id) references card(id)
+    foreign key(card_id) references card(id) ON DELETE CASCADE
 );
 
 create table if not exists asset_purchaseOrder

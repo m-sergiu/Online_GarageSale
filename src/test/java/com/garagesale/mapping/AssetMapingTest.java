@@ -23,10 +23,11 @@ public class AssetMapingTest {
         asset.setIssues(List.of(new Issue("issue")));
         asset.setQuantity(1);
 
-        assertEquals(asset.getCategory(), AssetDTOMapping.dtoToAsset(assetDTO).getCategory());
-        assertEquals(asset.getPrice(), AssetDTOMapping.dtoToAsset(assetDTO).getPrice());
-        assertEquals(asset.getIssues().get(0).getDescription(), AssetDTOMapping.dtoToAsset(assetDTO).getIssues().get(0).getDescription());
-        assertEquals(asset.getQuantity(), AssetDTOMapping.dtoToAsset(assetDTO).getQuantity());
+        Asset testAsset = AssetDTOMapping.dtoToAsset(assetDTO);
+        assertEquals(asset.getCategory(), testAsset.getCategory());
+        assertEquals(asset.getPrice(), testAsset.getPrice());
+        assertEquals(asset.getIssues().get(0).getDescription(), testAsset.getIssues().get(0).getDescription());
+        assertEquals(asset.getQuantity(), testAsset.getQuantity());
     }
 
     @Test

@@ -8,19 +8,19 @@ public class OrderDTO {
     private OrderType orderType;
     private double voucherBalance;
     private int discountBalance;
-    private int[] productID;
+    private int[] productIds;
     private String customerName;
     private String customerEmail;
 
     public OrderDTO(){
     }
 
-    public OrderDTO(Card card, OrderType orderType, double voucherBalance, int discountBalance, int[] productID, String customerName, String customerEmail) {
+    public OrderDTO(Card card, OrderType orderType, double voucherBalance, int discountBalance, int[] productIds, String customerName, String customerEmail) {
         this.card = card;
         this.orderType = orderType;
         this.voucherBalance = voucherBalance;
         this.discountBalance = discountBalance;
-        this.productID = productID;
+        this.productIds = productIds;
         this.customerName = customerName;
         this.customerEmail = customerEmail;
     }
@@ -62,8 +62,8 @@ public class OrderDTO {
     }
 
 
-    public int[] getProductID() {
-        return productID;
+    public int[] getProductIds() {
+        return productIds;
     }
 
     public String getCustomerName() {

@@ -44,10 +44,10 @@ public class OrderServiceImpl implements OrderService {
         List<Asset> assetList = new ArrayList<>();
         HashMap<Category, Double> receiptList = new HashMap<>();
         //loop through assets-dtoProductID
-        for (int i = 0; i < orderDTO.getProductID().length; i++) {
-            Asset asset = assetService.findById((long) orderDTO.getProductID()[i]);
+        for (int i = 0; i < orderDTO.getProductIds().length; i++) {
+            Asset asset = assetService.findById((long) orderDTO.getProductIds()[i]);
             if (asset.getQuantity() < 1) {
-                throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductID()[i] + "  doesnt exist anymore");
+                throw new ProductDoesntExistException("product with ID: " + orderDTO.getProductIds()[i] + "  doesnt exist anymore");
             } else {
                 //Check for same category
                 for (Asset listAsset : assetList) {
